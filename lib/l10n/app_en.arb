@@ -1,0 +1,9 @@
+{
+    "app_title":  "My banking app",
+    "forgot_password": "Forgot passowrd?",
+    "login": "Login",
+    "balance": "Avilable balance",
+    "transfer": "Transfer",
+    "insuficient_founds": "Insufficient funds",
+    "generic_error": "An error ocurred. Please try again."
+}

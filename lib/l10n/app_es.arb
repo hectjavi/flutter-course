@@ -1,0 +1,9 @@
+{
+    "app_title":  "Mi aplicacion Bancaria",
+    "forgot_password": "Olvidaste tu contraseña?",
+    "login": "Login",
+    "balance": "Balance disponible",
+    "transfer": "Transferir",
+    "insuficient_founds": "Fondos insuficiente",
+    "generic_error": "A ocurrido un error, Intenta de nuevo."
+}
