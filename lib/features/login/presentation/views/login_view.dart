@@ -138,8 +138,6 @@ class _BodyWidgetState extends State<BodyWidget> {
                 ),
               ),
               SizedBox(height: 16),
-
-              // === Botón de Login con navegación ===
               ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.all(Colors.blue),
@@ -182,27 +180,25 @@ class _BodyWidgetState extends State<BodyWidget> {
                         style: TextStyle(color: Colors.white),
                       ),
               ),
-              // === fin botón ===
-
               SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Not a member?'),
-                  InkWell(
-                    onTap: () {
-                      print('Navigate to registration page');
-                    },
-                    child: Text(
-                      'Register now',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Text('Not a member?'),
+              //     InkWell(
+              //       onTap: () {
+              //         print('Navigate to registration page');
+              //       },
+              //       child: Text(
+              //         'Register now',
+              //         style: TextStyle(
+              //           color: Colors.blue,
+              //           fontWeight: FontWeight.bold,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
