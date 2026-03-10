@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/assets.dart';
-//import 'package:flutter_application_1/core/environment/env.dart';
+import 'package:flutter_application_1/features/login/presentation/views/dashboard_view.dart';
 import 'package:flutter_application_1/features/login/presentation/states/login_provider.dart';
 import 'package:flutter_application_1/features/login/presentation/widgets/SocialWidget.dart';
 import 'package:provider/provider.dart';
@@ -71,6 +71,7 @@ class _BodyWidgetState extends State<BodyWidget> {
 
   @override
   Widget build(BuildContext context) {
+     final isLoading = context.watch<LoginProvider>().isLoading;
     return LayoutBuilder(
       builder: (context, constraints) {
         return Container(
@@ -137,21 +138,52 @@ class _BodyWidgetState extends State<BodyWidget> {
                 ),
               ),
               SizedBox(height: 16),
+
+              // === Botón de Login con navegación ===
               ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.all(Colors.blue),
                 ),
-                onPressed: () {
-                  final email = emailController.text;
-                  final password = passwordController.text;
+                onPressed: isLoading
+                    ? null
+                    : () async {
+                        final email = emailController.text.trim();
+                        final password = passwordController.text;
 
-                  context.read<LoginProvider>().login(email, password);
-                },
-                child: const Text(
-                  'Login',
-                  style: TextStyle(color: Colors.white),
-                ),
+                        final ok = await context
+                            .read<LoginProvider>()
+                            .login(email, password);
+
+                        if (ok && mounted) {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (_) => const DashboardView(),
+                            ),
+                          );
+                        } else if (mounted) {
+                          final error = context.read<LoginProvider>().error ??
+                              'Error de autenticación';
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(error)),
+                          );
+                        }
+                      },
+                child: isLoading
+                    ? const SizedBox(
+                        height: 18,
+                        width: 18,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                    : const Text(
+                        'Login',
+                        style: TextStyle(color: Colors.white),
+                      ),
               ),
+              // === fin botón ===
+
               SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -174,11 +206,11 @@ class _BodyWidgetState extends State<BodyWidget> {
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                  text: 'This is a ',
+                  text: 'Example credentials -- user: jaldana password: 123456',
                   style: TextStyle(color: Colors.black),
                   children: [
                     TextSpan(
-                      text: 'rich text',
+                      text: '',
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           print('Rich text tapped!');
@@ -188,7 +220,7 @@ class _BodyWidgetState extends State<BodyWidget> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    TextSpan(text: ' example.'),
+                    TextSpan(text: ''),
                   ],
                 ),
               ),

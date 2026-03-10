@@ -11,12 +11,12 @@ class RemoteAutheticationDataSource {
       Duration(seconds: 2),
     ); 
 
-    if (email == 'jmanu' && password == '123456') {
+    if (email == 'jaldana' && password == '123456') {
 
       return UserModel(
         id: '123',
         email: userPasswordModel.email,
-        name: 'Juan Manuel',
+        name: 'Javier Aldana',
       );
     } else {
       throw Exception('Error al registrar el usuario. Credenciales inválidas.');
