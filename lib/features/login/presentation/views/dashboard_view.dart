@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/login/presentation/states/dashboard_provider.dart';
+import 'package:flutter_application_1/features/login/presentation/views/history_view.dart';
+import 'package:flutter_application_1/features/login/presentation/views/settings_view.dart';
+import 'package:flutter_application_1/features/login/presentation/views/transfer_view.dart';
 import 'package:flutter_application_1/features/login/presentation/widgets/dashboard_widgets.dart';
 import 'package:provider/provider.dart';
 
@@ -174,57 +177,57 @@ class _DashboardBodyState extends State<DashboardBody> {
                     const SizedBox(height: 32),
 
                     // Acciones rápidas
-                    const Text(
-                      'Acciones Rápidas',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF1A1A1A),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
+                    // const Text(
+                    //   'Acciones Rápidas',
+                    //   style: TextStyle(
+                    //     fontSize: 20,
+                    //     fontWeight: FontWeight.bold,
+                    //     color: Color(0xFF1A1A1A),
+                    //   ),
+                    // ),
+                    // const SizedBox(height: 20),
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ActionButtonWidget(
-                          icon: Icons.send,
-                          label: 'Transferir',
-                          color: const Color(0xFF006FFD),
-                          onTap: () {
-                            context
-                                .read<DashboardProvider>()
-                                .navigateToTransfers(context);
-                          },
-                        ),
-                        ActionButtonWidget(
-                          icon: Icons.history,
-                          label: 'Historial',
-                          color: const Color(0xFF00C853),
-                          onTap: () {
-                            context
-                                .read<DashboardProvider>()
-                                .navigateToHistory(context);
-                          },
-                        ),
-                        ActionButtonWidget(
-                          icon: Icons.settings,
-                          label: 'Ajustes',
-                          color: const Color(0xFFFF6D00),
-                          onTap: () {
-                            context
-                                .read<DashboardProvider>()
-                                .navigateToSettings(context);
-                          },
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //   children: [
+                    //     ActionButtonWidget(
+                    //       icon: Icons.send,
+                    //       label: 'Transferir',
+                    //       color: const Color(0xFF006FFD),
+                    //       onTap: () {
+                    //         context
+                    //             .read<DashboardProvider>()
+                    //             .navigateToTransfers(context);
+                    //       },
+                    //     ),
+                    //     ActionButtonWidget(
+                    //       icon: Icons.history,
+                    //       label: 'Historial',
+                    //       color: const Color(0xFF00C853),
+                    //       onTap: () {
+                    //         context
+                    //             .read<DashboardProvider>()
+                    //             .navigateToHistory(context);
+                    //       },
+                    //     ),
+                    //     ActionButtonWidget(
+                    //       icon: Icons.settings,
+                    //       label: 'Ajustes',
+                    //       color: const Color(0xFFFF6D00),
+                    //       onTap: () {
+                    //         context
+                    //             .read<DashboardProvider>()
+                    //             .navigateToSettings(context);
+                    //       },
+                    //     ),
+                    //   ],
+                    // ),
 
-                    const SizedBox(height: 32),
+                    // const SizedBox(height: 32),
 
                     // Opciones adicionales
                     const Text(
-                      'Más Opciones',
+                      'Opciones',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -239,9 +242,10 @@ class _DashboardBodyState extends State<DashboardBody> {
                       icon: Icons.arrow_forward,
                       color: const Color(0xFF006FFD),
                       onTap: () {
-                        context
-                            .read<DashboardProvider>()
-                            .navigateToTransfers(context);
+                        Navigator.push(
+                          context, 
+                          MaterialPageRoute(builder: (context) => const TransferView())
+                          );
                       },
                     ),
                     const SizedBox(height: 12),
@@ -251,9 +255,10 @@ class _DashboardBodyState extends State<DashboardBody> {
                       icon: Icons.receipt_long,
                       color: const Color(0xFF00C853),
                       onTap: () {
-                        context
-                            .read<DashboardProvider>()
-                            .navigateToHistory(context);
+                        Navigator.push(
+                          context, 
+                          MaterialPageRoute(builder: (context) => const HistoryView())
+                          );
                       },
                     ),
                     const SizedBox(height: 12),
@@ -263,9 +268,10 @@ class _DashboardBodyState extends State<DashboardBody> {
                       icon: Icons.tune,
                       color: const Color(0xFFFF6D00),
                       onTap: () {
-                        context
-                            .read<DashboardProvider>()
-                            .navigateToSettings(context);
+                         Navigator.push(
+                          context, 
+                          MaterialPageRoute(builder: (context) => const SettingsView())
+                          );
                       },
                     ),
                   ],
