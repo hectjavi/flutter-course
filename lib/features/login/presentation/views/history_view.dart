@@ -186,7 +186,7 @@ class _HistoryBodyState extends State<HistoryBody> {
                                     _showDetailModal(context, provider);
                                   },
                                 );
-                              }).toList(),
+                              }),
                           ],
                         ],
                       ),

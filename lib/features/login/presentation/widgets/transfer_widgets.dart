@@ -112,7 +112,7 @@ class AccountSelectorWidget extends StatelessWidget {
               ),
             ),
           );
-        }).toList(),
+        }),
       ],
     );
   }
@@ -229,7 +229,7 @@ class DestinationSelectorWidget extends StatelessWidget {
               ),
             ),
           );
-        }).toList(),
+        }),
       ],
     );
   }

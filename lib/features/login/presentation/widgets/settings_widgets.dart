@@ -149,7 +149,7 @@ class ColorSelector extends StatelessWidget {
               ),
             ),
           );
-        }).toList(),
+        }),
       ],
     );
   }

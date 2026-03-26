@@ -32,8 +32,8 @@ class SettingsProvider extends ChangeNotifier {
   TextEditingController get nameController => _nameController;
 
   // Opciones disponibles
-  List<Map<String, String>> _availableAvatars = [];
-  List<Map<String, dynamic>> _availableColors = [];
+  final List<Map<String, String>> _availableAvatars = [];
+  final List<Map<String, dynamic>> _availableColors = [];
 
   List<Map<String, String>> get availableAvatars => _availableAvatars;
   List<Map<String, dynamic>> get availableColors => _availableColors;

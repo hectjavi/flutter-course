@@ -85,17 +85,6 @@ class _BodyWidgetState extends State<BodyWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Align(
-              //   alignment: Alignment.centerLeft,
-              //   child: Text(
-              //     'Welcome! ${Env.appName}',
-              //     style: const TextStyle(
-              //       fontSize: 24,
-              //       color: Colors.black,
-              //       fontWeight: FontWeight.bold,
-              //     ),
-              //   ),
-              // ),
               HeaderWidget(),
               SizedBox(height: 24),
               TextField(
@@ -265,13 +254,13 @@ class LoginButton extends StatelessWidget {
 
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Color(0xFF006FFD)),
+        backgroundColor: WidgetStateProperty.all(Color(0xFF006FFD)),
       ),
       onPressed: () {
-        /* Provider.of<LoginProvider>(
+        Provider.of<LoginProvider>(
           context,
           listen: false,
-        ).updateTitle('Haciendo login...');*/
+        ).updateTitle('Haciendo login...');
         context.read<LoginProvider>().updateTitle(
           'Haciendo login...',
         ); // Solo leer valores para ejecutar funciones
