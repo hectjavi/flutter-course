@@ -37,6 +37,12 @@ class RemoteAutheticationDataSource {
           email: userPasswordModel.email,
           name: 'Javier Aldana',
         );
+      } else if (email == 'rgiron' && password == '123456') {
+        return UserModel(
+          id: '321',
+          email: userPasswordModel.email,
+          name: 'Roberto Girón',
+        );
       } else {
         throw Exception('Error al registrar el usuario. Credenciales inválidas.');
       }
@@ -79,6 +85,12 @@ class RemoteAutheticationDataSource {
           id: '123',
           email: userPasswordModel.email,
           name: 'Javier Aldana',
+        );
+      } else if (email == 'rgiron' && password == '123456') {
+        return UserModel(
+          id: '321',
+          email: userPasswordModel.email,
+          name: 'Roberto Girón',
         );
       } else {
         throw Exception('Credenciales inválidas.');

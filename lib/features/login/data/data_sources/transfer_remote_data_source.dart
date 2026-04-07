@@ -159,6 +159,15 @@ class TransferRemoteDataSource {
           bankName: 'Banco Internacional',
           status: 'Activa',
         ),
+        AccountModel(
+          id: 'ACC-004',
+          accountNumber: '**** 1235',
+          accountType: 'Cuenta de Prueba',
+          balance: 5000.00,
+          currency: 'USD',
+          bankName: 'Bam',
+          status: 'Activa',
+        ),
       ];
 
   List<AccountDestinationModel> get _mockDestinationAccounts => [

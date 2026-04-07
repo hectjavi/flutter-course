@@ -101,6 +101,15 @@ class HistoryRemoteDataSource {
           bankName: 'Banco Internacional',
           status: 'Activa',
         ),
+        AccountModel(
+          id: 'ACC-004',
+          accountNumber: '**** 1235',
+          accountType: 'Cuenta de Prueba',
+          balance: 5000.00,
+          currency: 'USD',
+          bankName: 'Bam',
+          status: 'Activa',
+        ),
       ];
 
   List<TransactionModel> get _mockTransactions => [
@@ -263,6 +272,33 @@ class HistoryRemoteDataSource {
           date: DateTime.now().subtract(const Duration(days: 20)),
           status: 'completed',
           referenceNumber: 'BON-2024-001',
+        ),
+        // Transacciones cuenta Inversión (ACC-004)
+        TransactionModel(
+          id: 'TX-013',
+          accountId: 'ACC-004',
+          type: 'income',
+          amount: 250.00,
+          currency: 'USD',
+          description: 'Dividendos Acciones',
+          counterpartyName: 'Bolsa de Valores',
+          category: 'investment',
+          date: DateTime.now().subtract(const Duration(days: 6)),
+          status: 'completed',
+          referenceNumber: 'DIV-2024-Q2',
+        ),
+        TransactionModel(
+          id: 'TX-014',
+          accountId: 'ACC-004',
+          type: 'expense',
+          amount: 5000.00,
+          currency: 'USD',
+          description: 'Compra Bonos Tesoro',
+          counterpartyName: 'Ministerio de Finanzas',
+          category: 'investment',
+          date: DateTime.now().subtract(const Duration(days: 20)),
+          status: 'completed',
+          referenceNumber: 'BON-2024-002',
         ),
       ];
 }

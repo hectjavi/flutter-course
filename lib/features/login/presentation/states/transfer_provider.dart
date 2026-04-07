@@ -175,6 +175,9 @@ class TransferProvider extends ChangeNotifier {
         _sourceAccounts[index] = _selectedSourceAccount!;
       }
 
+      // Agregar delay para laboratorio.
+      await Future.delayed(const Duration(seconds: 1));
+
       notifyListeners();
       return true;
     } catch (e) {

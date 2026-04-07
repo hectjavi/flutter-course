@@ -191,7 +191,7 @@ class _BodyWidgetState extends State<BodyWidget> {
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                  text: 'Example credentials -- user: jaldana password: 123456',
+                  text: 'Example credentials -- user: jaldana / rgiron password: 123456',
                   style: TextStyle(color: Colors.black),
                   children: [
                     TextSpan(
