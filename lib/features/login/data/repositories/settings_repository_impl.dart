@@ -5,7 +5,7 @@ class SettingsRepositoryImpl {
   final SettingsRemoteDataSource _remoteDataSource;
 
   SettingsRepositoryImpl({SettingsRemoteDataSource? remoteDataSource})
-      : _remoteDataSource = remoteDataSource ?? SettingsRemoteDataSource();
+    : _remoteDataSource = remoteDataSource ?? SettingsRemoteDataSource();
 
   Future<UserSettingsModel> getUserSettings() async {
     return await _remoteDataSource.getUserSettings();

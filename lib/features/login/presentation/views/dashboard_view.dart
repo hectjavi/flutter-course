@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/router/app_routes.dart';
+import 'package:flutter_application_1/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_application_1/features/login/presentation/states/dashboard_provider.dart';
-import 'package:flutter_application_1/features/login/presentation/views/history_view.dart';
-import 'package:flutter_application_1/features/login/presentation/views/settings_view.dart';
-import 'package:flutter_application_1/features/login/presentation/views/transfer_view.dart';
 import 'package:flutter_application_1/features/login/presentation/widgets/dashboard_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class DashboardView extends StatelessWidget {
@@ -95,14 +96,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const WelcomeHeaderWidget(),
-                        CircleAvatar(
-                          radius: 24,
-                          backgroundColor: Colors.white.withOpacity(0.2),
-                          child: const Icon(
-                            Icons.person,
-                            color: Colors.white,
-                          ),
-                        ),
+                        const LogoutButton(),
                       ],
                     ),
                   ],
@@ -152,9 +146,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                                 Text(
                                   provider.error!,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.red.shade700,
-                                  ),
+                                  style: TextStyle(color: Colors.red.shade700),
                                 ),
                                 const SizedBox(height: 16),
                                 ElevatedButton(
@@ -242,10 +234,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                       icon: Icons.arrow_forward,
                       color: const Color(0xFF006FFD),
                       onTap: () {
-                        Navigator.push(
-                          context, 
-                          MaterialPageRoute(builder: (context) => const TransferView())
-                          );
+                        context.push(AppRoutes.transfer);
                       },
                     ),
                     const SizedBox(height: 12),
@@ -255,10 +244,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                       icon: Icons.receipt_long,
                       color: const Color(0xFF00C853),
                       onTap: () {
-                        Navigator.push(
-                          context, 
-                          MaterialPageRoute(builder: (context) => const HistoryView())
-                          );
+                        context.push(AppRoutes.history);
                       },
                     ),
                     const SizedBox(height: 12),
@@ -268,10 +254,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                       icon: Icons.tune,
                       color: const Color(0xFFFF6D00),
                       onTap: () {
-                         Navigator.push(
-                          context, 
-                          MaterialPageRoute(builder: (context) => const SettingsView())
-                          );
+                        context.push(AppRoutes.settings);
                       },
                     ),
                   ],
@@ -281,6 +264,25 @@ class _DashboardBodyState extends State<DashboardBody> {
           ),
         );
       },
+    );
+  }
+}
+
+class LogoutButton extends riverpod.ConsumerWidget {
+  const LogoutButton({super.key});
+
+  @override
+  Widget build(BuildContext context, riverpod.WidgetRef ref) {
+    return IconButton(
+      tooltip: 'Cerrar sesión',
+      style: IconButton.styleFrom(
+        backgroundColor: Colors.white.withValues(alpha: 0.2),
+        foregroundColor: Colors.white,
+      ),
+      onPressed: () {
+        ref.read(authControllerProvider.notifier).logout();
+      },
+      icon: const Icon(Icons.logout),
     );
   }
 }
@@ -306,10 +308,7 @@ class WelcomeHeaderWidget extends StatelessWidget {
         const SizedBox(height: 4),
         const Text(
           '¿Qué deseas hacer hoy?',
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.white70,
-          ),
+          style: TextStyle(fontSize: 14, color: Colors.white70),
         ),
       ],
     );

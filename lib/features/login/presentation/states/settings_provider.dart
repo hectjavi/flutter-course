@@ -10,8 +10,9 @@ class SettingsProvider extends ChangeNotifier {
   SettingsProvider({
     GetSettingsUseCase? getSettingsUseCase,
     UpdateSettingsUseCase? updateSettingsUseCase,
-  })  : _getSettingsUseCase = getSettingsUseCase ?? GetSettingsUseCase(),
-        _updateSettingsUseCase = updateSettingsUseCase ?? UpdateSettingsUseCase();
+  }) : _getSettingsUseCase = getSettingsUseCase ?? GetSettingsUseCase(),
+       _updateSettingsUseCase =
+           updateSettingsUseCase ?? UpdateSettingsUseCase();
 
   // Estado
   UserSettingsModel? _settings;
@@ -46,11 +47,11 @@ class SettingsProvider extends ChangeNotifier {
     try {
       _settings = await _getSettingsUseCase();
       _nameController.text = _settings!.displayName;
-      
+
       // Cargar opciones
       // _availableAvatars = _updateSettingsUseCase._repository.getAvailableAvatars();
       // _availableColors = _updateSettingsUseCase._repository.getAvailableColors();
-      
+
       _isLoading = false;
       notifyListeners();
     } catch (e) {
@@ -74,14 +75,14 @@ class SettingsProvider extends ChangeNotifier {
 
     try {
       await _updateSettingsUseCase.updateName(_nameController.text.trim());
-      
+
       // Actualizar localmente
       _settings = UserSettingsModel(
         displayName: _nameController.text.trim(),
         avatarAsset: _settings!.avatarAsset,
         headerColor: _settings!.headerColor,
       );
-      
+
       _successMessage = 'Nombre actualizado correctamente';
       _isSaving = false;
       notifyListeners();
@@ -100,13 +101,13 @@ class SettingsProvider extends ChangeNotifier {
 
     try {
       await _updateSettingsUseCase.updateAvatar(avatarAsset);
-      
+
       _settings = UserSettingsModel(
         displayName: _settings!.displayName,
         avatarAsset: avatarAsset,
         headerColor: _settings!.headerColor,
       );
-      
+
       _successMessage = 'Avatar actualizado';
       _isSaving = false;
       notifyListeners();
@@ -125,13 +126,13 @@ class SettingsProvider extends ChangeNotifier {
 
     try {
       await _updateSettingsUseCase.updateColor(color);
-      
+
       _settings = UserSettingsModel(
         displayName: _settings!.displayName,
         avatarAsset: _settings!.avatarAsset,
         headerColor: color,
       );
-      
+
       _successMessage = 'Tema actualizado';
       _isSaving = false;
       notifyListeners();

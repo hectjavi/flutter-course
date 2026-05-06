@@ -9,11 +9,11 @@ class DashboardProvider extends ChangeNotifier {
   final GetAccountSummaryUseCase _getAccountSummaryUseCase;
 
   DashboardProvider()
-      : _getAccountSummaryUseCase = GetAccountSummaryUseCase(
-          repository: DashboardRepositoryImpl(
-            remoteDataSource: DashboardRemoteDataSource(),
-          ),
-        );
+    : _getAccountSummaryUseCase = GetAccountSummaryUseCase(
+        repository: DashboardRepositoryImpl(
+          remoteDataSource: DashboardRemoteDataSource(),
+        ),
+      );
 
   // Estado
   AccountModel? _account;

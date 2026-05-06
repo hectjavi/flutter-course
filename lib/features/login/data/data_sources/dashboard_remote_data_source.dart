@@ -6,8 +6,8 @@ class DashboardRemoteDataSource {
   final DioClient _dioClient;
 
   // dependencias / mock en tests
-  DashboardRemoteDataSource({DioClient? dioClient}) 
-      : _dioClient = dioClient ?? DioClient();
+  DashboardRemoteDataSource({DioClient? dioClient})
+    : _dioClient = dioClient ?? DioClient();
 
   Future<AccountModel> getAccountSummary() async {
     try {
@@ -18,7 +18,6 @@ class DashboardRemoteDataSource {
       // MOCK TEMPORAL
       await Future.delayed(const Duration(seconds: 1));
       return _getMockAccount();
-
     } catch (e) {
       throw Exception('Error al obtener resumen de cuenta: $e');
     }
@@ -32,13 +31,9 @@ class DashboardRemoteDataSource {
   }) async {
     final response = await _dioClient.post(
       ApiConstants.transfer,
-      data: {
-        'toAccount': toAccount,
-        'amount': amount,
-        'concept': concept,
-      },
+      data: {'toAccount': toAccount, 'amount': amount, 'concept': concept},
     );
-    
+
     if (response.statusCode != 200) {
       throw Exception('Error al realizar transferencia');
     }

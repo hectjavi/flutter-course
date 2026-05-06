@@ -5,7 +5,7 @@ class GetSettingsUseCase {
   final SettingsRepositoryImpl _repository;
 
   GetSettingsUseCase({SettingsRepositoryImpl? repository})
-      : _repository = repository ?? SettingsRepositoryImpl();
+    : _repository = repository ?? SettingsRepositoryImpl();
 
   Future<UserSettingsModel> call() async {
     return await _repository.getUserSettings();

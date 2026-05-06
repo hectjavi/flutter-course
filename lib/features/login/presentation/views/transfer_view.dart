@@ -68,7 +68,8 @@ class _TransferBodyState extends State<TransferBody> {
         return Consumer<TransferProvider>(
           builder: (context, provider, child) {
             // Mostrar diálogo de éxito si hay transferencia completada
-            if (provider.lastTransfer != null && provider.lastTransfer!.status == 'completed') {
+            if (provider.lastTransfer != null &&
+                provider.lastTransfer!.status == 'completed') {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 _showSuccessDialog(provider);
               });
@@ -108,7 +109,10 @@ class _TransferBodyState extends State<TransferBody> {
                           Row(
                             children: [
                               IconButton(
-                                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                                icon: const Icon(
+                                  Icons.arrow_back,
+                                  color: Colors.white,
+                                ),
                                 onPressed: () => Navigator.pop(context),
                               ),
                               const SizedBox(width: 8),
@@ -153,16 +157,23 @@ class _TransferBodyState extends State<TransferBody> {
                                 decoration: BoxDecoration(
                                   color: Colors.red.shade50,
                                   borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(color: Colors.red.shade200),
+                                  border: Border.all(
+                                    color: Colors.red.shade200,
+                                  ),
                                 ),
                                 child: Row(
                                   children: [
-                                    Icon(Icons.error, color: Colors.red.shade400),
+                                    Icon(
+                                      Icons.error,
+                                      color: Colors.red.shade400,
+                                    ),
                                     const SizedBox(width: 12),
                                     Expanded(
                                       child: Text(
                                         provider.error!,
-                                        style: TextStyle(color: Colors.red.shade700),
+                                        style: TextStyle(
+                                          color: Colors.red.shade700,
+                                        ),
                                       ),
                                     ),
                                     IconButton(
@@ -186,12 +197,15 @@ class _TransferBodyState extends State<TransferBody> {
                             // Selector de cuenta destino
                             DestinationSelectorWidget(
                               accounts: provider.destinationAccounts,
-                              selectedAccount: provider.selectedDestinationAccount,
+                              selectedAccount:
+                                  provider.selectedDestinationAccount,
                               onSelect: provider.selectDestinationAccount,
                               onAddNew: () {
                                 // TODO: Implementar agregar nueva cuenta
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Función próximamente')),
+                                  const SnackBar(
+                                    content: Text('Función próximamente'),
+                                  ),
                                 );
                               },
                             ),
@@ -201,7 +215,10 @@ class _TransferBodyState extends State<TransferBody> {
                             // Monto
                             AmountInputWidget(
                               controller: _amountController,
-                              errorText: provider.error?.contains('monto') ?? false ? provider.error : null,
+                              errorText:
+                                  provider.error?.contains('monto') ?? false
+                                  ? provider.error
+                                  : null,
                             ),
 
                             const SizedBox(height: 24),
@@ -236,23 +253,38 @@ class _TransferBodyState extends State<TransferBody> {
                             SizedBox(
                               height: 56,
                               child: ElevatedButton(
-                                onPressed: provider.isExecutingTransfer ||
+                                onPressed:
+                                    provider.isExecutingTransfer ||
                                         !provider.canExecuteTransfer ||
                                         !provider.tokenSent
                                     ? null
                                     : () async {
-                                        final amount = double.tryParse(_amountController.text) ?? 0;
-                                        final success = await provider.executeTransfer(
-                                          amount: amount,
-                                          confirmationToken: _tokenController.text,
-                                          description: _descriptionController.text.isEmpty
-                                              ? null
-                                              : _descriptionController.text,
-                                        );
+                                        final amount =
+                                            double.tryParse(
+                                              _amountController.text,
+                                            ) ??
+                                            0;
+                                        final success = await provider
+                                            .executeTransfer(
+                                              amount: amount,
+                                              confirmationToken:
+                                                  _tokenController.text,
+                                              description:
+                                                  _descriptionController
+                                                      .text
+                                                      .isEmpty
+                                                  ? null
+                                                  : _descriptionController.text,
+                                            );
                                         if (!success && mounted) {
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                          ScaffoldMessenger.of(
+                                            context,
+                                          ).showSnackBar(
                                             SnackBar(
-                                              content: Text(provider.error ?? 'Error en la transferencia'),
+                                              content: Text(
+                                                provider.error ??
+                                                    'Error en la transferencia',
+                                              ),
                                               backgroundColor: Colors.red,
                                             ),
                                           );
@@ -265,7 +297,9 @@ class _TransferBodyState extends State<TransferBody> {
                                     borderRadius: BorderRadius.circular(16),
                                   ),
                                   elevation: 4,
-                                  shadowColor: const Color(0xFF006FFD).withOpacity(0.4),
+                                  shadowColor: const Color(
+                                    0xFF006FFD,
+                                  ).withOpacity(0.4),
                                 ),
                                 child: provider.isExecutingTransfer
                                     ? const SizedBox(
@@ -295,11 +329,16 @@ class _TransferBodyState extends State<TransferBody> {
                               decoration: BoxDecoration(
                                 color: Colors.amber.shade50,
                                 borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: Colors.amber.shade200),
+                                border: Border.all(
+                                  color: Colors.amber.shade200,
+                                ),
                               ),
                               child: Row(
                                 children: [
-                                  Icon(Icons.security, color: Colors.amber.shade700),
+                                  Icon(
+                                    Icons.security,
+                                    color: Colors.amber.shade700,
+                                  ),
                                   const SizedBox(width: 12),
                                   Expanded(
                                     child: Text(

@@ -4,7 +4,7 @@ class RequestTokenUseCase {
   final TransferRepositoryImpl _repository;
 
   RequestTokenUseCase({TransferRepositoryImpl? repository})
-      : _repository = repository ?? TransferRepositoryImpl();
+    : _repository = repository ?? TransferRepositoryImpl();
 
   Future<void> call(String sourceAccountId) async {
     return await _repository.requestConfirmationToken(sourceAccountId);

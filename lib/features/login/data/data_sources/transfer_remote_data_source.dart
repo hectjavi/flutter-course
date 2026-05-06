@@ -7,7 +7,7 @@ class TransferRemoteDataSource {
   final DioClient _dioClient;
 
   TransferRemoteDataSource({DioClient? dioClient})
-      : _dioClient = dioClient ?? DioClient();
+    : _dioClient = dioClient ?? DioClient();
 
   // Obtener cuentas debito
   Future<List<AccountModel>> getSourceAccounts() async {
@@ -18,10 +18,9 @@ class TransferRemoteDataSource {
       //     .map((json) => AccountModel.fromJson(json))
       //     .toList();
 
-      // MOCK 
+      // MOCK
       await Future.delayed(const Duration(milliseconds: 800));
       return _mockSourceAccounts;
-
     } catch (e) {
       throw Exception('Error al obtener cuentas: $e');
     }
@@ -39,14 +38,15 @@ class TransferRemoteDataSource {
       // MOCK cuenta destino
       await Future.delayed(const Duration(milliseconds: 600));
       return _mockDestinationAccounts;
-
     } catch (e) {
       throw Exception('Error al obtener cuentas destino: $e');
     }
   }
 
   // Buscar cuenta destino por número
-  Future<AccountDestinationModel?> searchDestinationAccount(String accountNumber) async {
+  Future<AccountDestinationModel?> searchDestinationAccount(
+    String accountNumber,
+  ) async {
     try {
       // ejemplo back
       // final response = await _dioClient.get(
@@ -60,7 +60,6 @@ class TransferRemoteDataSource {
         (acc) => acc.accountNumber.replaceAll('*', '').contains(accountNumber),
         orElse: () => throw Exception('Cuenta no encontrada'),
       );
-
     } catch (e) {
       throw Exception('Error al buscar cuenta: $e');
     }
@@ -78,7 +77,6 @@ class TransferRemoteDataSource {
       // MOCK ----- Simula envío de token
       await Future.delayed(const Duration(seconds: 1));
       print('Token enviado al teléfono registrado (MOCK: 123456)');
-
     } catch (e) {
       throw Exception('Error al solicitar token: $e');
     }
@@ -125,70 +123,69 @@ class TransferRemoteDataSource {
         createdAt: DateTime.now(),
         status: 'completed',
       );
-
     } catch (e) {
       throw Exception('Error al realizar transferencia: $e');
     }
   }
 
   List<AccountModel> get _mockSourceAccounts => [
-        AccountModel(
-          id: 'ACC-001',
-          accountNumber: '**** 4589',
-          accountType: 'Cuenta de Ahorros',
-          balance: 12500.50,
-          currency: 'USD',
-          bankName: 'Banco Internacional',
-          status: 'Activa',
-        ),
-        AccountModel(
-          id: 'ACC-002',
-          accountNumber: '**** 7892',
-          accountType: 'Cuenta Corriente',
-          balance: 8750.00,
-          currency: 'USD',
-          bankName: 'Banco Internacional',
-          status: 'Activa',
-        ),
-        AccountModel(
-          id: 'ACC-003',
-          accountNumber: '**** 1234',
-          accountType: 'Cuenta de Inversión',
-          balance: 50000.00,
-          currency: 'USD',
-          bankName: 'Banco Internacional',
-          status: 'Activa',
-        ),
-      ];
+    AccountModel(
+      id: 'ACC-001',
+      accountNumber: '**** 4589',
+      accountType: 'Cuenta de Ahorros',
+      balance: 12500.50,
+      currency: 'USD',
+      bankName: 'Banco Internacional',
+      status: 'Activa',
+    ),
+    AccountModel(
+      id: 'ACC-002',
+      accountNumber: '**** 7892',
+      accountType: 'Cuenta Corriente',
+      balance: 8750.00,
+      currency: 'USD',
+      bankName: 'Banco Internacional',
+      status: 'Activa',
+    ),
+    AccountModel(
+      id: 'ACC-003',
+      accountNumber: '**** 1234',
+      accountType: 'Cuenta de Inversión',
+      balance: 50000.00,
+      currency: 'USD',
+      bankName: 'Banco Internacional',
+      status: 'Activa',
+    ),
+  ];
 
   List<AccountDestinationModel> get _mockDestinationAccounts => [
-        AccountDestinationModel(
-          id: 'DEST-001',
-          accountNumber: '**** 9999',
-          accountHolderName: 'María González',
-          bankName: 'Banco Nacional',
-          alias: 'Mamá',
-        ),
-        AccountDestinationModel(
-          id: 'DEST-002',
-          accountNumber: '**** 7777',
-          accountHolderName: 'Carlos Ruiz',
-          bankName: 'Banco Internacional',
-          alias: 'Carlos - Trabajo',
-        ),
-        AccountDestinationModel(
-          id: 'DEST-003',
-          accountNumber: '**** 5555',
-          accountHolderName: 'Inmobiliaria del Sur',
-          bankName: 'Banco Metropolitano',
-          alias: 'Pago Alquiler',
-        ),
-        AccountDestinationModel(
-          id: 'DEST-004',
-          accountNumber: '**** 3333',
-          accountHolderName: 'Ana Martínez',
-          bankName: 'Banco Internacional',
-          alias: 'Hermana',
-        ),
-      ];
+    AccountDestinationModel(
+      id: 'DEST-001',
+      accountNumber: '**** 9999',
+      accountHolderName: 'María González',
+      bankName: 'Banco Nacional',
+      alias: 'Mamá',
+    ),
+    AccountDestinationModel(
+      id: 'DEST-002',
+      accountNumber: '**** 7777',
+      accountHolderName: 'Carlos Ruiz',
+      bankName: 'Banco Internacional',
+      alias: 'Carlos - Trabajo',
+    ),
+    AccountDestinationModel(
+      id: 'DEST-003',
+      accountNumber: '**** 5555',
+      accountHolderName: 'Inmobiliaria del Sur',
+      bankName: 'Banco Metropolitano',
+      alias: 'Pago Alquiler',
+    ),
+    AccountDestinationModel(
+      id: 'DEST-004',
+      accountNumber: '**** 3333',
+      accountHolderName: 'Ana Martínez',
+      bankName: 'Banco Internacional',
+      alias: 'Hermana',
+    ),
+  ];
 }

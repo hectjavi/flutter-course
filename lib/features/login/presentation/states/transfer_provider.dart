@@ -19,10 +19,13 @@ class TransferProvider extends ChangeNotifier {
     GetDestinationAccountsUseCase? getDestinationAccountsUseCase,
     RequestTokenUseCase? requestTokenUseCase,
     ExecuteTransferUseCase? executeTransferUseCase,
-  })  : _getSourceAccountsUseCase = getSourceAccountsUseCase ?? GetSourceAccountsUseCase(),
-        _getDestinationAccountsUseCase = getDestinationAccountsUseCase ?? GetDestinationAccountsUseCase(),
-        _requestTokenUseCase = requestTokenUseCase ?? RequestTokenUseCase(),
-        _executeTransferUseCase = executeTransferUseCase ?? ExecuteTransferUseCase();
+  }) : _getSourceAccountsUseCase =
+           getSourceAccountsUseCase ?? GetSourceAccountsUseCase(),
+       _getDestinationAccountsUseCase =
+           getDestinationAccountsUseCase ?? GetDestinationAccountsUseCase(),
+       _requestTokenUseCase = requestTokenUseCase ?? RequestTokenUseCase(),
+       _executeTransferUseCase =
+           executeTransferUseCase ?? ExecuteTransferUseCase();
 
   // Estado
   List<AccountModel> _sourceAccounts = [];
@@ -41,7 +44,8 @@ class TransferProvider extends ChangeNotifier {
   List<AccountModel> get sourceAccounts => _sourceAccounts;
   List<AccountDestinationModel> get destinationAccounts => _destinationAccounts;
   AccountModel? get selectedSourceAccount => _selectedSourceAccount;
-  AccountDestinationModel? get selectedDestinationAccount => _selectedDestinationAccount;
+  AccountDestinationModel? get selectedDestinationAccount =>
+      _selectedDestinationAccount;
   bool get isLoading => _isLoading;
   bool get isLoadingToken => _isLoadingToken;
   bool get isExecutingTransfer => _isExecutingTransfer;
@@ -49,8 +53,8 @@ class TransferProvider extends ChangeNotifier {
   String? get tokenError => _tokenError;
   TransferModel? get lastTransfer => _lastTransfer;
   bool get tokenSent => _tokenSent;
-  bool get canExecuteTransfer => 
-      _selectedSourceAccount != null && 
+  bool get canExecuteTransfer =>
+      _selectedSourceAccount != null &&
       _selectedDestinationAccount != null &&
       !_isLoading &&
       !_isExecutingTransfer;
@@ -66,15 +70,15 @@ class TransferProvider extends ChangeNotifier {
         _getSourceAccountsUseCase(),
         _getDestinationAccountsUseCase(),
       ]);
-      
+
       _sourceAccounts = results[0] as List<AccountModel>;
       _destinationAccounts = results[1] as List<AccountDestinationModel>;
-      
+
       // primera cuenta por defecto si hay disponibles
       if (_sourceAccounts.isNotEmpty) {
         _selectedSourceAccount = _sourceAccounts.first;
       }
-      
+
       _isLoading = false;
       notifyListeners();
     } catch (e) {
@@ -157,7 +161,7 @@ class TransferProvider extends ChangeNotifier {
 
       _lastTransfer = transfer;
       _isExecutingTransfer = false;
-      
+
       // Actualizar saldo mock (restar el monto)
       _selectedSourceAccount = AccountModel(
         id: _selectedSourceAccount!.id,
@@ -168,9 +172,11 @@ class TransferProvider extends ChangeNotifier {
         bankName: _selectedSourceAccount!.bankName,
         status: _selectedSourceAccount!.status,
       );
-      
+
       // Actualizar en la lista
-      final index = _sourceAccounts.indexWhere((a) => a.id == _selectedSourceAccount!.id);
+      final index = _sourceAccounts.indexWhere(
+        (a) => a.id == _selectedSourceAccount!.id,
+      );
       if (index != -1) {
         _sourceAccounts[index] = _selectedSourceAccount!;
       }

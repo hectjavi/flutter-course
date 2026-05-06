@@ -6,7 +6,7 @@ class SettingsRemoteDataSource {
   final DioClient _dioClient;
 
   SettingsRemoteDataSource({DioClient? dioClient})
-      : _dioClient = dioClient ?? DioClient();
+    : _dioClient = dioClient ?? DioClient();
 
   Future<UserSettingsModel> getUserSettings() async {
     try {
@@ -21,7 +21,6 @@ class SettingsRemoteDataSource {
         avatarAsset: 'assets/avatars/avatar1.png',
         headerColor: 'blue',
       );
-
     } catch (e) {
       throw Exception('Error al obtener configuración: $e');
     }
@@ -38,7 +37,6 @@ class SettingsRemoteDataSource {
       // MOCK
       await Future.delayed(const Duration(milliseconds: 400));
       print('Nombre actualizado: $name');
-
     } catch (e) {
       throw Exception('Error al actualizar nombre: $e');
     }
@@ -55,7 +53,6 @@ class SettingsRemoteDataSource {
       // MOCK
       await Future.delayed(const Duration(milliseconds: 400));
       print('Avatar actualizado: $avatarAsset');
-
     } catch (e) {
       throw Exception('Error al actualizar avatar: $e');
     }
@@ -72,7 +69,6 @@ class SettingsRemoteDataSource {
       // MOCK
       await Future.delayed(const Duration(milliseconds: 400));
       print('Color actualizado: $color');
-
     } catch (e) {
       throw Exception('Error al actualizar color: $e');
     }
@@ -80,19 +76,35 @@ class SettingsRemoteDataSource {
 
   // Avatares disponibles (mock)
   List<Map<String, String>> getAvailableAvatars() => [
-        {'id': 'avatar1', 'asset': 'assets/avatars/avatar1.png', 'name': 'Clásico'},
-        {'id': 'avatar2', 'asset': 'assets/avatars/avatar2.png', 'name': 'Moderno'},
-        {'id': 'avatar3', 'asset': 'assets/avatars/avatar3.png', 'name': 'Ejecutivo'},
-        {'id': 'avatar4', 'asset': 'assets/avatars/avatar4.png', 'name': 'Casual'},
-        {'id': 'avatar5', 'asset': 'assets/avatars/avatar5.png', 'name': 'Creativo'},
-      ];
+    {'id': 'avatar1', 'asset': 'assets/avatars/avatar1.png', 'name': 'Clásico'},
+    {'id': 'avatar2', 'asset': 'assets/avatars/avatar2.png', 'name': 'Moderno'},
+    {
+      'id': 'avatar3',
+      'asset': 'assets/avatars/avatar3.png',
+      'name': 'Ejecutivo',
+    },
+    {'id': 'avatar4', 'asset': 'assets/avatars/avatar4.png', 'name': 'Casual'},
+    {
+      'id': 'avatar5',
+      'asset': 'assets/avatars/avatar5.png',
+      'name': 'Creativo',
+    },
+  ];
 
   // Colores disponibles
   List<Map<String, dynamic>> getAvailableColors() => [
-        {'id': 'blue', 'name': 'Azul Profesional', 'color': const Color(0xFF006FFD)},
-        {'id': 'green', 'name': 'Verde Natural', 'color': const Color(0xFF00C853)},
-        {'id': 'purple', 'name': 'Púrpura Real', 'color': const Color(0xFF7C4DFF)},
-        {'id': 'orange', 'name': 'Naranja Energía', 'color': const Color(0xFFFF6D00)},
-        {'id': 'red', 'name': 'Rojo Pasión', 'color': const Color(0xFFFF1744)},
-      ];
+    {
+      'id': 'blue',
+      'name': 'Azul Profesional',
+      'color': const Color(0xFF006FFD),
+    },
+    {'id': 'green', 'name': 'Verde Natural', 'color': const Color(0xFF00C853)},
+    {'id': 'purple', 'name': 'Púrpura Real', 'color': const Color(0xFF7C4DFF)},
+    {
+      'id': 'orange',
+      'name': 'Naranja Energía',
+      'color': const Color(0xFFFF6D00),
+    },
+    {'id': 'red', 'name': 'Rojo Pasión', 'color': const Color(0xFFFF1744)},
+  ];
 }

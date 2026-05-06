@@ -19,7 +19,10 @@ class AccountSelectorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencyFormat = NumberFormat.currency(symbol: '\$', decimalDigits: 2);
+    final currencyFormat = NumberFormat.currency(
+      symbol: '\$',
+      decimalDigits: 2,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +48,9 @@ class AccountSelectorWidget extends StatelessWidget {
                 color: isSelected ? const Color(0xFFE8F0FE) : Colors.white,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: isSelected ? const Color(0xFF006FFD) : Colors.grey.shade200,
+                  color: isSelected
+                      ? const Color(0xFF006FFD)
+                      : Colors.grey.shade200,
                   width: isSelected ? 2 : 1,
                 ),
                 boxShadow: [
@@ -62,7 +67,9 @@ class AccountSelectorWidget extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: isSelected ? const Color(0xFF006FFD) : Colors.grey.shade100,
+                      color: isSelected
+                          ? const Color(0xFF006FFD)
+                          : Colors.grey.shade100,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Icon(
@@ -80,7 +87,9 @@ class AccountSelectorWidget extends StatelessWidget {
                           account.accountType,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            color: isSelected ? const Color(0xFF006FFD) : Colors.black87,
+                            color: isSelected
+                                ? const Color(0xFF006FFD)
+                                : Colors.black87,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -96,7 +105,9 @@ class AccountSelectorWidget extends StatelessWidget {
                           currencyFormat.format(account.balance),
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: isSelected ? const Color(0xFF006FFD) : const Color(0xFF00C853),
+                            color: isSelected
+                                ? const Color(0xFF006FFD)
+                                : const Color(0xFF00C853),
                             fontSize: 15,
                           ),
                         ),
@@ -104,10 +115,7 @@ class AccountSelectorWidget extends StatelessWidget {
                     ),
                   ),
                   if (isSelected)
-                    const Icon(
-                      Icons.check_circle,
-                      color: Color(0xFF006FFD),
-                    ),
+                    const Icon(Icons.check_circle, color: Color(0xFF006FFD)),
                 ],
               ),
             ),
@@ -171,7 +179,9 @@ class DestinationSelectorWidget extends StatelessWidget {
                 color: isSelected ? const Color(0xFFE8F0FE) : Colors.white,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: isSelected ? const Color(0xFF006FFD) : Colors.grey.shade200,
+                  color: isSelected
+                      ? const Color(0xFF006FFD)
+                      : Colors.grey.shade200,
                   width: isSelected ? 2 : 1,
                 ),
               ),
@@ -180,7 +190,9 @@ class DestinationSelectorWidget extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: isSelected ? const Color(0xFF006FFD) : Colors.orange.shade50,
+                      color: isSelected
+                          ? const Color(0xFF006FFD)
+                          : Colors.orange.shade50,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Icon(
@@ -198,7 +210,9 @@ class DestinationSelectorWidget extends StatelessWidget {
                           account.displayName,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            color: isSelected ? const Color(0xFF006FFD) : Colors.black87,
+                            color: isSelected
+                                ? const Color(0xFF006FFD)
+                                : Colors.black87,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -221,10 +235,7 @@ class DestinationSelectorWidget extends StatelessWidget {
                     ),
                   ),
                   if (isSelected)
-                    const Icon(
-                      Icons.check_circle,
-                      color: Color(0xFF006FFD),
-                    ),
+                    const Icon(Icons.check_circle, color: Color(0xFF006FFD)),
                 ],
               ),
             ),
@@ -275,10 +286,7 @@ class AmountInputWidget extends StatelessWidget {
               color: Color(0xFF006FFD),
             ),
             hintText: '0.00',
-            hintStyle: TextStyle(
-              fontSize: 24,
-              color: Colors.grey.shade400,
-            ),
+            hintStyle: TextStyle(fontSize: 24, color: Colors.grey.shade400),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(color: Colors.grey.shade300),
@@ -361,7 +369,11 @@ class TokenInputWidget extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Icon(Icons.check_circle, color: Colors.green.shade600, size: 20),
+                Icon(
+                  Icons.check_circle,
+                  color: Colors.green.shade600,
+                  size: 20,
+                ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -389,9 +401,7 @@ class TokenInputWidget extends StatelessWidget {
           decoration: InputDecoration(
             hintText: '000000',
             counterText: '',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(color: Color(0xFF006FFD), width: 2),
@@ -418,7 +428,10 @@ class TransferSuccessDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencyFormat = NumberFormat.currency(symbol: '\$', decimalDigits: 2);
+    final currencyFormat = NumberFormat.currency(
+      symbol: '\$',
+      decimalDigits: 2,
+    );
 
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -442,10 +455,7 @@ class TransferSuccessDialog extends StatelessWidget {
             const SizedBox(height: 24),
             const Text(
               '¡Transferencia Exitosa!',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             Text(
@@ -460,9 +470,7 @@ class TransferSuccessDialog extends StatelessWidget {
             Text(
               'Transferido a $destinationName',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.grey.shade600,
-              ),
+              style: TextStyle(color: Colors.grey.shade600),
             ),
             const SizedBox(height: 24),
             SizedBox(

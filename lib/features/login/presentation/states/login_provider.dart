@@ -4,7 +4,7 @@ import 'package:flutter_application_1/features/login/domain/use_cases/login_use_
 class LoginProvider extends ChangeNotifier {
   final LoginUseCase _loginUseCase;
   LoginProvider({LoginUseCase? loginUseCase})
-      : _loginUseCase = loginUseCase ?? LoginUseCase();
+    : _loginUseCase = loginUseCase ?? LoginUseCase();
 
   String title = 'Login';
   bool _isLoading = false;

@@ -47,7 +47,7 @@ class TransactionModel {
   bool get isIncome => type == 'income';
   bool get isExpense => type == 'expense';
   bool get isTransfer => type == 'transfer';
-  
+
   String get formattedType {
     switch (type) {
       case 'income':

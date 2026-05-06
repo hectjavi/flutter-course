@@ -33,7 +33,8 @@ class _SettingsBodyState extends State<SettingsBody> {
         return Consumer<SettingsProvider>(
           builder: (context, provider, child) {
             // Preview del color seleccionado
-            final headerColor = provider.settings?.getHeaderColor() ?? const Color(0xFF006FFD);
+            final headerColor =
+                provider.settings?.getHeaderColor() ?? const Color(0xFF006FFD);
 
             return ListView(
               padding: EdgeInsets.zero,
@@ -54,7 +55,12 @@ class _SettingsBodyState extends State<SettingsBody> {
                     gradient: LinearGradient(
                       colors: [
                         headerColor,
-                        Color.fromARGB(255, headerColor.red ~/ 2, headerColor.green ~/ 2, headerColor.blue ~/ 2),
+                        Color.fromARGB(
+                          255,
+                          headerColor.red ~/ 2,
+                          headerColor.green ~/ 2,
+                          headerColor.blue ~/ 2,
+                        ),
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
@@ -69,7 +75,10 @@ class _SettingsBodyState extends State<SettingsBody> {
                       Row(
                         children: [
                           IconButton(
-                            icon: const Icon(Icons.arrow_back, color: Colors.white),
+                            icon: const Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                            ),
                             onPressed: () => Navigator.pop(context),
                           ),
                           const SizedBox(width: 8),
@@ -84,7 +93,7 @@ class _SettingsBodyState extends State<SettingsBody> {
                         ],
                       ),
                       const SizedBox(height: 20),
-                      
+
                       // Preview del perfil
                       if (provider.settings != null)
                         Column(
@@ -95,7 +104,10 @@ class _SettingsBodyState extends State<SettingsBody> {
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 shape: BoxShape.circle,
-                                border: Border.all(color: Colors.white, width: 4),
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 4,
+                                ),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.black.withOpacity(0.2),
@@ -180,12 +192,17 @@ class _SettingsBodyState extends State<SettingsBody> {
                           ),
                           child: Row(
                             children: [
-                              Icon(Icons.check_circle, color: Colors.green.shade400),
+                              Icon(
+                                Icons.check_circle,
+                                color: Colors.green.shade400,
+                              ),
                               const SizedBox(width: 12),
                               Expanded(
                                 child: Text(
                                   provider.successMessage!,
-                                  style: TextStyle(color: Colors.green.shade700),
+                                  style: TextStyle(
+                                    color: Colors.green.shade700,
+                                  ),
                                 ),
                               ),
                               IconButton(
@@ -219,11 +236,16 @@ class _SettingsBodyState extends State<SettingsBody> {
                                         height: 20,
                                         child: Padding(
                                           padding: EdgeInsets.all(8.0),
-                                          child: CircularProgressIndicator(strokeWidth: 2),
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                          ),
                                         ),
                                       )
                                     : IconButton(
-                                        icon: const Icon(Icons.save, color: Color(0xFF006FFD)),
+                                        icon: const Icon(
+                                          Icons.save,
+                                          color: Color(0xFF006FFD),
+                                        ),
                                         onPressed: provider.updateDisplayName,
                                       ),
                               ),
@@ -246,7 +268,8 @@ class _SettingsBodyState extends State<SettingsBody> {
                           children: [
                             AvatarSelector(
                               avatars: provider.availableAvatars,
-                              selectedAvatar: provider.settings?.avatarAsset ?? '',
+                              selectedAvatar:
+                                  provider.settings?.avatarAsset ?? '',
                               onSelect: provider.updateAvatar,
                               isLoading: provider.isSaving,
                             ),
@@ -260,7 +283,8 @@ class _SettingsBodyState extends State<SettingsBody> {
                           children: [
                             ColorSelector(
                               colors: provider.availableColors,
-                              selectedColor: provider.settings?.headerColor ?? 'blue',
+                              selectedColor:
+                                  provider.settings?.headerColor ?? 'blue',
                               onSelect: provider.updateHeaderColor,
                               isLoading: provider.isSaving,
                             ),
@@ -340,7 +364,12 @@ class _SettingsBodyState extends State<SettingsBody> {
     );
   }
 
-  Widget _buildSecurityOption(String title, String subtitle, IconData icon, VoidCallback onTap) {
+  Widget _buildSecurityOption(
+    String title,
+    String subtitle,
+    IconData icon,
+    VoidCallback onTap,
+  ) {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(8),
@@ -367,10 +396,7 @@ class _SettingsBodyState extends State<SettingsBody> {
                   ),
                   Text(
                     subtitle,
-                    style: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontSize: 13,
-                    ),
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
                   ),
                 ],
               ),

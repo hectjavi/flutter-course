@@ -8,7 +8,7 @@ class RemoteAutheticationDataSource {
 
   // Inyección de dependencias - permite mock en tests
   RemoteAutheticationDataSource({DioClient? dioClient})
-      : _dioClient = dioClient ?? DioClient();
+    : _dioClient = dioClient ?? DioClient();
 
   Future<UserModel> signIUpWithEmailAndPassword(
     UserPasswordModel userPasswordModel,
@@ -25,10 +25,10 @@ class RemoteAutheticationDataSource {
       //     'password': password,
       //   },
       // );
-      // 
+      //
       // return UserModel.fromJson(response.data['user']);
 
-      // MOCK 
+      // MOCK
       await Future.delayed(const Duration(seconds: 2));
 
       if (email == 'jaldana' && password == '123456') {
@@ -38,15 +38,16 @@ class RemoteAutheticationDataSource {
           name: 'Javier Aldana',
         );
       } else {
-        throw Exception('Error al registrar el usuario. Credenciales inválidas.');
+        throw Exception(
+          'Error al registrar el usuario. Credenciales inválidas.',
+        );
       }
-
     } catch (e) {
       throw Exception('Error de autenticación: $e');
     }
   }
 
-  // Método login 
+  // Método login
   Future<UserModel> loginWithEmailAndPassword(
     UserPasswordModel userPasswordModel,
   ) async {
@@ -62,13 +63,13 @@ class RemoteAutheticationDataSource {
       //     'password': password,
       //   },
       // );
-      // 
-      // // Guardar token en interceptor 
+      //
+      // // Guardar token en interceptor
       // final token = response.data['token'];
       // if (token != null) {
       //   _dioClient.dio.options.headers['Authorization'] = 'Bearer $token';
       // }
-      // 
+      //
       // return UserModel.fromJson(response.data['user']);
 
       // MOCK
@@ -83,7 +84,6 @@ class RemoteAutheticationDataSource {
       } else {
         throw Exception('Credenciales inválidas.');
       }
-
     } catch (e) {
       throw Exception('Error al iniciar sesión: $e');
     }
@@ -94,10 +94,9 @@ class RemoteAutheticationDataSource {
     try {
       // ejemplo cuando exista backend
       // await _dioClient.post(ApiConstants.logout);
-      
+
       // Limpiar token de los headers
       _dioClient.dio.options.headers.remove('Authorization');
-      
     } catch (e) {
       throw Exception('Error al cerrar sesión: $e');
     }

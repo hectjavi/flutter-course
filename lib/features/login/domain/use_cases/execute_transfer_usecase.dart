@@ -5,7 +5,7 @@ class ExecuteTransferUseCase {
   final TransferRepositoryImpl _repository;
 
   ExecuteTransferUseCase({TransferRepositoryImpl? repository})
-      : _repository = repository ?? TransferRepositoryImpl();
+    : _repository = repository ?? TransferRepositoryImpl();
 
   Future<TransferModel> call({
     required String sourceAccountId,

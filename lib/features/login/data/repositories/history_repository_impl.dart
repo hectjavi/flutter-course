@@ -6,7 +6,7 @@ class HistoryRepositoryImpl {
   final HistoryRemoteDataSource _remoteDataSource;
 
   HistoryRepositoryImpl({HistoryRemoteDataSource? remoteDataSource})
-      : _remoteDataSource = remoteDataSource ?? HistoryRemoteDataSource();
+    : _remoteDataSource = remoteDataSource ?? HistoryRemoteDataSource();
 
   Future<List<AccountModel>> getUserAccounts() async {
     return await _remoteDataSource.getUserAccounts();
