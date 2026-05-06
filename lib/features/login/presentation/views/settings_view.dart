@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_application_1/features/login/presentation/states/settings_provider.dart';
 import 'package:flutter_application_1/features/login/presentation/widgets/settings_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
 import 'package:provider/provider.dart';
 
 class SettingsView extends StatelessWidget {
@@ -57,9 +59,9 @@ class _SettingsBodyState extends State<SettingsBody> {
                         headerColor,
                         Color.fromARGB(
                           255,
-                          headerColor.red ~/ 2,
-                          headerColor.green ~/ 2,
-                          headerColor.blue ~/ 2,
+                          ((headerColor.r * 255.0).round() ~/ 2).clamp(0, 255),
+                          ((headerColor.g * 255.0).round() ~/ 2).clamp(0, 255),
+                          ((headerColor.b * 255.0).round() ~/ 2).clamp(0, 255),
                         ),
                       ],
                       begin: Alignment.topLeft,
@@ -110,7 +112,7 @@ class _SettingsBodyState extends State<SettingsBody> {
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.2),
+                                    color: Colors.black.withValues(alpha: 0.2),
                                     blurRadius: 20,
                                   ),
                                 ],
@@ -319,25 +321,10 @@ class _SettingsBodyState extends State<SettingsBody> {
                           ],
                         ),
 
-                        // Cerrar sesión
                         Container(
                           width: double.infinity,
                           margin: const EdgeInsets.only(top: 16),
-                          child: ElevatedButton.icon(
-                            onPressed: () {
-                              // TODO: Implementar logout
-                            },
-                            icon: const Icon(Icons.logout),
-                            label: const Text('Cerrar Sesión'),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red.shade50,
-                              foregroundColor: Colors.red.shade700,
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                          ),
+                          child: const SettingsLogoutButton(),
                         ),
 
                         const SizedBox(height: 32),
@@ -404,6 +391,27 @@ class _SettingsBodyState extends State<SettingsBody> {
             Icon(Icons.chevron_right, color: Colors.grey.shade400),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class SettingsLogoutButton extends riverpod.ConsumerWidget {
+  const SettingsLogoutButton({super.key});
+
+  @override
+  Widget build(BuildContext context, riverpod.WidgetRef ref) {
+    return ElevatedButton.icon(
+      onPressed: () {
+        ref.read(authControllerProvider.notifier).logout();
+      },
+      icon: const Icon(Icons.logout),
+      label: const Text('Cerrar Sesión'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.red.shade50,
+        foregroundColor: Colors.red.shade700,
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }

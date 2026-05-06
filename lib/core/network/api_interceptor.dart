@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class ApiInterceptor extends Interceptor {
-  // token de auth
   String? _authToken;
 
   void setAuthToken(String token) {
@@ -15,7 +14,6 @@ class ApiInterceptor extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    // Opcion para manejo de token a las peticiones si fuera el caso
     if (_authToken != null) {
       options.headers['Authorization'] = 'Bearer $_authToken';
     }
@@ -41,10 +39,8 @@ class ApiInterceptor extends Interceptor {
     );
     debugPrint('Message: ${err.message}');
 
-    // Manejo errores globales
     if (err.response?.statusCode == 401) {
-      // TODO: Navegar a login o refrescar token
-      debugPrint('Token invalido - Redirigir a login');
+      debugPrint('Token invalido');
     }
 
     return super.onError(err, handler);

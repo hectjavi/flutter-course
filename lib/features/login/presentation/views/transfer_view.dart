@@ -201,7 +201,6 @@ class _TransferBodyState extends State<TransferBody> {
                                   provider.selectedDestinationAccount,
                               onSelect: provider.selectDestinationAccount,
                               onAddNew: () {
-                                // TODO: Implementar agregar nueva cuenta
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text('Función próximamente'),
@@ -259,6 +258,9 @@ class _TransferBodyState extends State<TransferBody> {
                                         !provider.tokenSent
                                     ? null
                                     : () async {
+                                        final messenger = ScaffoldMessenger.of(
+                                          context,
+                                        );
                                         final amount =
                                             double.tryParse(
                                               _amountController.text,
@@ -277,9 +279,7 @@ class _TransferBodyState extends State<TransferBody> {
                                                   : _descriptionController.text,
                                             );
                                         if (!success && mounted) {
-                                          ScaffoldMessenger.of(
-                                            context,
-                                          ).showSnackBar(
+                                          messenger.showSnackBar(
                                             SnackBar(
                                               content: Text(
                                                 provider.error ??
@@ -299,7 +299,7 @@ class _TransferBodyState extends State<TransferBody> {
                                   elevation: 4,
                                   shadowColor: const Color(
                                     0xFF006FFD,
-                                  ).withOpacity(0.4),
+                                  ).withValues(alpha: 0.4),
                                 ),
                                 child: provider.isExecutingTransfer
                                     ? const SizedBox(

@@ -56,7 +56,7 @@ class AccountSelectorWidget extends StatelessWidget {
                 boxShadow: [
                   if (!isSelected)
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.1),
+                      color: Colors.grey.withValues(alpha: 0.1),
                       blurRadius: 4,
                       offset: const Offset(0, 2),
                     ),
@@ -377,7 +377,7 @@ class TokenInputWidget extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'Token enviado a tu teléfono registrado (MOCK: 123456)',
+                    'Token enviado. Usa el código 123456.',
                     style: TextStyle(
                       color: Colors.green.shade700,
                       fontSize: 13,

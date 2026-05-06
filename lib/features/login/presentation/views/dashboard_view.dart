@@ -31,31 +31,6 @@ class DashboardBody extends StatefulWidget {
 
 class _DashboardBodyState extends State<DashboardBody> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
-  void deactivate() {
-    super.deactivate();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(covariant DashboardBody oldWidget) {
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -167,57 +142,6 @@ class _DashboardBodyState extends State<DashboardBody> {
                     ),
 
                     const SizedBox(height: 32),
-
-                    // Acciones rápidas
-                    // const Text(
-                    //   'Acciones Rápidas',
-                    //   style: TextStyle(
-                    //     fontSize: 20,
-                    //     fontWeight: FontWeight.bold,
-                    //     color: Color(0xFF1A1A1A),
-                    //   ),
-                    // ),
-                    // const SizedBox(height: 20),
-
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    //   children: [
-                    //     ActionButtonWidget(
-                    //       icon: Icons.send,
-                    //       label: 'Transferir',
-                    //       color: const Color(0xFF006FFD),
-                    //       onTap: () {
-                    //         context
-                    //             .read<DashboardProvider>()
-                    //             .navigateToTransfers(context);
-                    //       },
-                    //     ),
-                    //     ActionButtonWidget(
-                    //       icon: Icons.history,
-                    //       label: 'Historial',
-                    //       color: const Color(0xFF00C853),
-                    //       onTap: () {
-                    //         context
-                    //             .read<DashboardProvider>()
-                    //             .navigateToHistory(context);
-                    //       },
-                    //     ),
-                    //     ActionButtonWidget(
-                    //       icon: Icons.settings,
-                    //       label: 'Ajustes',
-                    //       color: const Color(0xFFFF6D00),
-                    //       onTap: () {
-                    //         context
-                    //             .read<DashboardProvider>()
-                    //             .navigateToSettings(context);
-                    //       },
-                    //     ),
-                    //   ],
-                    // ),
-
-                    // const SizedBox(height: 32),
-
-                    // Opciones adicionales
                     const Text(
                       'Opciones',
                       style: TextStyle(

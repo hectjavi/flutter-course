@@ -1,24 +1,11 @@
-import 'package:flutter_application_1/core/network/dio_client.dart';
 import 'package:flutter_application_1/features/login/data/models/account_model.dart';
 import 'package:flutter_application_1/features/login/data/models/transaction_model.dart';
 
 class HistoryRemoteDataSource {
-  final DioClient _dioClient;
-
-  HistoryRemoteDataSource({DioClient? dioClient})
-    : _dioClient = dioClient ?? DioClient();
-
   Future<List<AccountModel>> getUserAccounts() async {
     try {
-      //BACKEND:
-      // final response = await _dioClient.get(ApiConstants.accounts);
-      // return (response.data as List)
-      //     .map((json) => AccountModel.fromJson(json))
-      //     .toList();
-
-      // MOCK - Mismas cuentas del dashboard
       await Future.delayed(const Duration(milliseconds: 600));
-      return _mockAccounts;
+      return _accounts;
     } catch (e) {
       throw Exception('Error al obtener cuentas: $e');
     }
@@ -31,24 +18,8 @@ class HistoryRemoteDataSource {
     String? type,
   }) async {
     try {
-      // BACKEND:
-      // final queryParams = {
-      //   'accountId': accountId,
-      //   if (startDate != null) 'startDate': startDate.toIso8601String(),
-      //   if (endDate != null) 'endDate': endDate.toIso8601String(),
-      //   if (type != null) 'type': type,
-      // };
-      // final response = await _dioClient.get(
-      //   ApiConstants.transactions,
-      //   queryParameters: queryParams,
-      // );
-      // return (response.data as List)
-      //     .map((json) => TransactionModel.fromJson(json))
-      //     .toList();
-
-      // MOCK - Filtrar por cuenta
       await Future.delayed(const Duration(milliseconds: 800));
-      return _mockTransactions.where((t) => t.accountId == accountId).toList();
+      return _transactions.where((t) => t.accountId == accountId).toList();
     } catch (e) {
       throw Exception('Error al obtener transacciones: $e');
     }
@@ -56,19 +27,14 @@ class HistoryRemoteDataSource {
 
   Future<TransactionModel?> getTransactionDetail(String transactionId) async {
     try {
-      // BACKEND:
-      // final response = await _dioClient.get('${ApiConstants.transactions}/$transactionId');
-      // return TransactionModel.fromJson(response.data);
-
-      // MOCK
       await Future.delayed(const Duration(milliseconds: 400));
-      return _mockTransactions.firstWhere((t) => t.id == transactionId);
+      return _transactions.firstWhere((t) => t.id == transactionId);
     } catch (e) {
       throw Exception('Error al obtener detalle: $e');
     }
   }
 
-  List<AccountModel> get _mockAccounts => [
+  List<AccountModel> get _accounts => [
     AccountModel(
       id: 'ACC-001',
       accountNumber: '**** 4589',
@@ -98,8 +64,7 @@ class HistoryRemoteDataSource {
     ),
   ];
 
-  List<TransactionModel> get _mockTransactions => [
-    // Transacciones cuenta Ahorros (ACC-001)
+  List<TransactionModel> get _transactions => [
     TransactionModel(
       id: 'TX-001',
       accountId: 'ACC-001',
@@ -204,7 +169,6 @@ class HistoryRemoteDataSource {
       referenceNumber: 'FAR-789456',
     ),
 
-    // Transacciones cuenta Corriente (ACC-002)
     TransactionModel(
       id: 'TX-009',
       accountId: 'ACC-002',
@@ -232,7 +196,6 @@ class HistoryRemoteDataSource {
       referenceNumber: 'TRF-456789',
     ),
 
-    // Transacciones cuenta Inversión (ACC-003)
     TransactionModel(
       id: 'TX-011',
       accountId: 'ACC-003',

@@ -1,62 +1,32 @@
-import 'package:flutter_application_1/core/network/dio_client.dart';
 import 'package:flutter_application_1/features/login/data/models/account_destination_model.dart';
 import 'package:flutter_application_1/features/login/data/models/account_model.dart';
 import 'package:flutter_application_1/features/login/data/models/transfer_model.dart';
 
 class TransferRemoteDataSource {
-  final DioClient _dioClient;
-
-  TransferRemoteDataSource({DioClient? dioClient})
-    : _dioClient = dioClient ?? DioClient();
-
-  // Obtener cuentas debito
   Future<List<AccountModel>> getSourceAccounts() async {
     try {
-      // ejemplo backend
-      // final response = await _dioClient.get(ApiConstants.sourceAccounts);
-      // return (response.data as List)
-      //     .map((json) => AccountModel.fromJson(json))
-      //     .toList();
-
-      // MOCK
       await Future.delayed(const Duration(milliseconds: 800));
-      return _mockSourceAccounts;
+      return _sourceAccounts;
     } catch (e) {
       throw Exception('Error al obtener cuentas: $e');
     }
   }
 
-  // Obtener cuentas destino guardadas
   Future<List<AccountDestinationModel>> getDestinationAccounts() async {
     try {
-      // ejemplo backend
-      // final response = await _dioClient.get(ApiConstants.destinationAccounts);
-      // return (response.data as List)
-      //     .map((json) => AccountDestinationModel.fromJson(json))
-      //     .toList();
-
-      // MOCK cuenta destino
       await Future.delayed(const Duration(milliseconds: 600));
-      return _mockDestinationAccounts;
+      return _destinationAccounts;
     } catch (e) {
       throw Exception('Error al obtener cuentas destino: $e');
     }
   }
 
-  // Buscar cuenta destino por número
   Future<AccountDestinationModel?> searchDestinationAccount(
     String accountNumber,
   ) async {
     try {
-      // ejemplo back
-      // final response = await _dioClient.get(
-      //   '${ApiConstants.searchAccount}/$accountNumber',
-      // );
-      // return AccountDestinationModel.fromJson(response.data);
-
-      // MOCK ---- Buscar en cuentas mock
       await Future.delayed(const Duration(milliseconds: 500));
-      return _mockDestinationAccounts.firstWhere(
+      return _destinationAccounts.firstWhere(
         (acc) => acc.accountNumber.replaceAll('*', '').contains(accountNumber),
         orElse: () => throw Exception('Cuenta no encontrada'),
       );
@@ -65,24 +35,14 @@ class TransferRemoteDataSource {
     }
   }
 
-  // Solicitar token de confirmación (SMS/Email)
   Future<void> requestConfirmationToken(String sourceAccountId) async {
     try {
-      // ejemplo back
-      // await _dioClient.post(
-      //   ApiConstants.requestToken,
-      //   data: {'accountId': sourceAccountId},
-      // );
-
-      // MOCK ----- Simula envío de token
       await Future.delayed(const Duration(seconds: 1));
-      print('Token enviado al teléfono registrado (MOCK: 123456)');
     } catch (e) {
       throw Exception('Error al solicitar token: $e');
     }
   }
 
-  // Ejecutar transferencia
   Future<TransferModel> executeTransfer({
     required String sourceAccountId,
     required String destinationAccountId,
@@ -91,23 +51,7 @@ class TransferRemoteDataSource {
     String? description,
   }) async {
     try {
-      // ejemplo back
-      // final response = await _dioClient.post(
-      //   ApiConstants.transfer,
-      //   data: {
-      //     'sourceAccountId': sourceAccountId,
-      //     'destinationAccountId': destinationAccountId,
-      //     'amount': amount,
-      //     'confirmationToken': confirmationToken,
-      //     'description': description,
-      //   },
-      // );
-      // return TransferModel.fromJson(response.data);
-
-      // MOCK ----- Simula transferencia exitosa
       await Future.delayed(const Duration(seconds: 2));
-
-      // Valida token mock
       if (confirmationToken != '123456') {
         throw Exception('Token de confirmación inválido');
       }
@@ -128,7 +72,7 @@ class TransferRemoteDataSource {
     }
   }
 
-  List<AccountModel> get _mockSourceAccounts => [
+  List<AccountModel> get _sourceAccounts => [
     AccountModel(
       id: 'ACC-001',
       accountNumber: '**** 4589',
@@ -158,7 +102,7 @@ class TransferRemoteDataSource {
     ),
   ];
 
-  List<AccountDestinationModel> get _mockDestinationAccounts => [
+  List<AccountDestinationModel> get _destinationAccounts => [
     AccountDestinationModel(
       id: 'DEST-001',
       accountNumber: '**** 9999',
