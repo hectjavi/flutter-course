@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/assets.dart';
+import 'package:flutter_application_1/core/localization/locale_provider.dart';
 import 'package:flutter_application_1/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_application_1/features/auth/presentation/states/auth_state.dart';
 import 'package:flutter_application_1/features/login/presentation/widgets/SocialWidget.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LoginView extends StatelessWidget {
@@ -55,6 +57,8 @@ class _BodyWidgetState extends ConsumerState<BodyWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     ref.listen<AuthState>(authControllerProvider, (previous, next) {
       next.whenOrNull(
         error: (message) {
@@ -86,24 +90,26 @@ class _BodyWidgetState extends ConsumerState<BodyWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const HeaderWidget(),
+                HeaderWidget(title: localizations.login),
+                const SizedBox(height: 16),
+                const LanguageSelector(),
                 const SizedBox(height: 24),
                 TextFormField(
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
                   autocorrect: false,
-                  decoration: const InputDecoration(
-                    suffixIcon: Icon(Icons.email),
-                    hintText: 'Email Address',
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    suffixIcon: const Icon(Icons.email),
+                    hintText: localizations.email_address,
+                    border: const OutlineInputBorder(),
                   ),
-                  validator: _validateEmail,
+                  validator: (value) => _validateEmail(value, localizations),
                 ),
                 const SizedBox(height: 24),
                 TextFormField(
                   controller: passwordController,
                   decoration: InputDecoration(
-                    hintText: 'Password',
+                    hintText: localizations.password,
                     border: const OutlineInputBorder(),
                     suffixIcon: IconButton(
                       tooltip: showPassword
@@ -120,13 +126,13 @@ class _BodyWidgetState extends ConsumerState<BodyWidget> {
                     ),
                   ),
                   obscureText: !showPassword,
-                  validator: _validatePassword,
+                  validator: (value) => _validatePassword(value, localizations),
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  'Forgot Password?',
+                Text(
+                  localizations.forgot_password,
                   textAlign: TextAlign.left,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
                     color: Colors.blue,
@@ -147,21 +153,24 @@ class _BodyWidgetState extends ConsumerState<BodyWidget> {
                             color: Colors.white,
                           ),
                         )
-                      : const Text(
-                          'Login',
+                      : Text(
+                          localizations.login,
                           style: TextStyle(color: Colors.white),
                         ),
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  'Example credentials: emily.johnson@x.dummyjson.com / emilyspass',
+                Text(
+                  localizations.example_credentials,
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
                 ),
                 const SizedBox(height: 24),
                 const Divider(),
                 const SizedBox(height: 24),
-                const Text('Or continue with', textAlign: TextAlign.center),
+                Text(
+                  localizations.or_continue_with,
+                  textAlign: TextAlign.center,
+                ),
                 const SizedBox(height: 16),
                 const SocialRow(),
               ],
@@ -186,30 +195,30 @@ class _BodyWidgetState extends ConsumerState<BodyWidget> {
         );
   }
 
-  String? _validateEmail(String? value) {
+  String? _validateEmail(String? value, AppLocalizations localizations) {
     final email = value?.trim() ?? '';
     final emailRegExp = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
 
     if (email.isEmpty) {
-      return 'Ingresa tu email.';
+      return localizations.email_required;
     }
 
     if (!emailRegExp.hasMatch(email)) {
-      return 'Ingresa un email válido.';
+      return localizations.email_invalid;
     }
 
     return null;
   }
 
-  String? _validatePassword(String? value) {
+  String? _validatePassword(String? value, AppLocalizations localizations) {
     final password = value ?? '';
 
     if (password.isEmpty) {
-      return 'Ingresa tu contraseña.';
+      return localizations.password_required;
     }
 
     if (password.length < 6) {
-      return 'La contraseña debe tener al menos 6 caracteres.';
+      return localizations.password_min_length;
     }
 
     return null;
@@ -217,17 +226,64 @@ class _BodyWidgetState extends ConsumerState<BodyWidget> {
 }
 
 class HeaderWidget extends StatelessWidget {
-  const HeaderWidget({super.key});
+  const HeaderWidget({super.key, required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      'Login',
+    return Text(
+      title,
       style: TextStyle(
         fontSize: 24,
         color: Colors.black,
         fontWeight: FontWeight.bold,
       ),
+    );
+  }
+}
+
+class LanguageSelector extends ConsumerWidget {
+  const LanguageSelector({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final localizations = AppLocalizations.of(context)!;
+    final localeController = ref.read(appLocaleProvider.notifier);
+    final selectedLanguage = ref.watch(appLocaleProvider);
+    final currentLanguage = switch (selectedLanguage?.languageCode) {
+      'en' => AppLanguage.english,
+      'es' => AppLanguage.spanish,
+      _ => AppLanguage.system,
+    };
+
+    return DropdownButtonFormField<AppLanguage>(
+      initialValue: currentLanguage,
+      decoration: InputDecoration(
+        labelText: localizations.language_selector_label,
+        border: const OutlineInputBorder(),
+        prefixIcon: const Icon(Icons.language),
+      ),
+      items: [
+        DropdownMenuItem(
+          value: AppLanguage.system,
+          child: Text(localizations.language_system_default),
+        ),
+        DropdownMenuItem(
+          value: AppLanguage.english,
+          child: Text(localizations.language_english),
+        ),
+        DropdownMenuItem(
+          value: AppLanguage.spanish,
+          child: Text(localizations.language_spanish),
+        ),
+      ],
+      onChanged: (value) {
+        if (value == null) {
+          return;
+        }
+        localeController.selectLanguage(value);
+      },
     );
   }
 }
