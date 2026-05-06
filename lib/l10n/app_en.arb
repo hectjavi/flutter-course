@@ -1,9 +1,21 @@
 {
-    "app_title":  "My banking app",
+    "app_title": "My banking app",
     "forgot_password": "Forgot passowrd?",
     "login": "Login",
     "balance": "Avilable balance",
     "transfer": "Transfer",
     "insuficient_founds": "Insufficient funds",
-    "generic_error": "An error ocurred. Please try again."
+    "generic_error": "An error ocurred. Please try again.",
+    "email_address": "Email Address",
+    "password": "Password",
+    "email_required": "Enter your email.",
+    "email_invalid": "Enter a valid email.",
+    "password_required": "Enter your password.",
+    "password_min_length": "Password must be at least 6 characters.",
+    "example_credentials": "Example credentials: emily.johnson@x.dummyjson.com / emilyspass",
+    "or_continue_with": "Or continue with",
+    "language_selector_label": "Language",
+    "language_system_default": "Default (system)",
+    "language_english": "English",
+    "language_spanish": "Spanish"
 }

@@ -5,7 +5,7 @@ class GetTransactionsUseCase {
   final HistoryRepositoryImpl _repository;
 
   GetTransactionsUseCase({HistoryRepositoryImpl? repository})
-      : _repository = repository ?? HistoryRepositoryImpl();
+    : _repository = repository ?? HistoryRepositoryImpl();
 
   Future<List<TransactionModel>> call(
     String accountId, {
@@ -21,4 +21,3 @@ class GetTransactionsUseCase {
     );
   }
 }
-

@@ -11,8 +11,10 @@ class HistoryProvider extends ChangeNotifier {
   HistoryProvider({
     GetUserAccountsUseCase? getUserAccountsUseCase,
     GetTransactionsUseCase? getTransactionsUseCase,
-  })  : _getUserAccountsUseCase = getUserAccountsUseCase ?? GetUserAccountsUseCase(),
-        _getTransactionsUseCase = getTransactionsUseCase ?? GetTransactionsUseCase();
+  }) : _getUserAccountsUseCase =
+           getUserAccountsUseCase ?? GetUserAccountsUseCase(),
+       _getTransactionsUseCase =
+           getTransactionsUseCase ?? GetTransactionsUseCase();
 
   // Estado
   List<AccountModel> _accounts = [];
@@ -41,11 +43,11 @@ class HistoryProvider extends ChangeNotifier {
   double get totalIncome => _transactions
       .where((t) => t.isIncome)
       .fold(0, (sum, t) => sum + t.amount);
-  
+
   double get totalExpenses => _transactions
       .where((t) => t.isExpense)
       .fold(0, (sum, t) => sum + t.amount);
-  
+
   double get totalTransfers => _transactions
       .where((t) => t.isTransfer)
       .fold(0, (sum, t) => sum + t.amount);
@@ -57,13 +59,13 @@ class HistoryProvider extends ChangeNotifier {
 
     try {
       _accounts = await _getUserAccountsUseCase();
-      
+
       // Seleccionar primera cuenta por defecto
       if (_accounts.isNotEmpty) {
         _selectedAccount = _accounts.first;
         await _loadTransactions();
       }
-      
+
       _isLoading = false;
       notifyListeners();
     } catch (e) {
@@ -77,7 +79,7 @@ class HistoryProvider extends ChangeNotifier {
     _selectedAccount = account;
     _transactions = []; // Limpiar transacciones anteriores
     notifyListeners();
-    
+
     await _loadTransactions();
   }
 

@@ -66,7 +66,10 @@ class _HistoryBodyState extends State<HistoryBody> {
                           Row(
                             children: [
                               IconButton(
-                                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                                icon: const Icon(
+                                  Icons.arrow_back,
+                                  color: Colors.white,
+                                ),
                                 onPressed: () => Navigator.pop(context),
                               ),
                               const SizedBox(width: 8),
@@ -146,7 +149,9 @@ class _HistoryBodyState extends State<HistoryBody> {
                                   const SizedBox(
                                     width: 20,
                                     height: 20,
-                                    child: CircularProgressIndicator(strokeWidth: 2),
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
                                   ),
                               ],
                             ),
@@ -186,7 +191,7 @@ class _HistoryBodyState extends State<HistoryBody> {
                                     _showDetailModal(context, provider);
                                   },
                                 );
-                              }).toList(),
+                              }),
                           ],
                         ],
                       ),

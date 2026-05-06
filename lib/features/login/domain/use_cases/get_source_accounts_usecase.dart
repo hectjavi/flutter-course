@@ -5,7 +5,7 @@ class GetSourceAccountsUseCase {
   final TransferRepositoryImpl _repository;
 
   GetSourceAccountsUseCase({TransferRepositoryImpl? repository})
-      : _repository = repository ?? TransferRepositoryImpl();
+    : _repository = repository ?? TransferRepositoryImpl();
 
   Future<List<AccountModel>> call() async {
     return await _repository.getSourceAccounts();

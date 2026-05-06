@@ -28,4 +28,40 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get generic_error => 'A ocurrido un error, Intenta de nuevo.';
+
+  @override
+  String get email_address => 'Correo electrónico';
+
+  @override
+  String get password => 'Contraseña';
+
+  @override
+  String get email_required => 'Ingresa tu correo electrónico.';
+
+  @override
+  String get email_invalid => 'Ingresa un correo electrónico válido.';
+
+  @override
+  String get password_required => 'Ingresa tu contraseña.';
+
+  @override
+  String get password_min_length => 'La contraseña debe tener al menos 6 caracteres.';
+
+  @override
+  String get example_credentials => 'Credenciales de ejemplo: emily.johnson@x.dummyjson.com / emilyspass';
+
+  @override
+  String get or_continue_with => 'O continúa con';
+
+  @override
+  String get language_selector_label => 'Idioma';
+
+  @override
+  String get language_system_default => 'Predeterminado (sistema)';
+
+  @override
+  String get language_english => 'Inglés';
+
+  @override
+  String get language_spanish => 'Español';
 }

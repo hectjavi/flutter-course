@@ -45,6 +45,9 @@ class UserSettingsModel {
 
   List<Color> getHeaderGradient() {
     final base = getHeaderColor();
-    return [base, Color.fromARGB(255, base.red ~/ 2, base.green ~/ 2, base.blue ~/ 2)];
+    return [
+      base,
+      Color.fromARGB(255, base.red ~/ 2, base.green ~/ 2, base.blue ~/ 2),
+    ];
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_application_1/features/login/presentation/states/settings_provider.dart';
 import 'package:flutter_application_1/features/login/presentation/widgets/settings_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
 import 'package:provider/provider.dart';
 
 class SettingsView extends StatelessWidget {
@@ -33,7 +35,8 @@ class _SettingsBodyState extends State<SettingsBody> {
         return Consumer<SettingsProvider>(
           builder: (context, provider, child) {
             // Preview del color seleccionado
-            final headerColor = provider.settings?.getHeaderColor() ?? const Color(0xFF006FFD);
+            final headerColor =
+                provider.settings?.getHeaderColor() ?? const Color(0xFF006FFD);
 
             return ListView(
               padding: EdgeInsets.zero,
@@ -54,7 +57,12 @@ class _SettingsBodyState extends State<SettingsBody> {
                     gradient: LinearGradient(
                       colors: [
                         headerColor,
-                        Color.fromARGB(255, headerColor.red ~/ 2, headerColor.green ~/ 2, headerColor.blue ~/ 2),
+                        Color.fromARGB(
+                          255,
+                          ((headerColor.r * 255.0).round() ~/ 2).clamp(0, 255),
+                          ((headerColor.g * 255.0).round() ~/ 2).clamp(0, 255),
+                          ((headerColor.b * 255.0).round() ~/ 2).clamp(0, 255),
+                        ),
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
@@ -69,7 +77,10 @@ class _SettingsBodyState extends State<SettingsBody> {
                       Row(
                         children: [
                           IconButton(
-                            icon: const Icon(Icons.arrow_back, color: Colors.white),
+                            icon: const Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                            ),
                             onPressed: () => Navigator.pop(context),
                           ),
                           const SizedBox(width: 8),
@@ -84,7 +95,7 @@ class _SettingsBodyState extends State<SettingsBody> {
                         ],
                       ),
                       const SizedBox(height: 20),
-                      
+
                       // Preview del perfil
                       if (provider.settings != null)
                         Column(
@@ -95,10 +106,13 @@ class _SettingsBodyState extends State<SettingsBody> {
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 shape: BoxShape.circle,
-                                border: Border.all(color: Colors.white, width: 4),
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 4,
+                                ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.2),
+                                    color: Colors.black.withValues(alpha: 0.2),
                                     blurRadius: 20,
                                   ),
                                 ],
@@ -180,12 +194,17 @@ class _SettingsBodyState extends State<SettingsBody> {
                           ),
                           child: Row(
                             children: [
-                              Icon(Icons.check_circle, color: Colors.green.shade400),
+                              Icon(
+                                Icons.check_circle,
+                                color: Colors.green.shade400,
+                              ),
                               const SizedBox(width: 12),
                               Expanded(
                                 child: Text(
                                   provider.successMessage!,
-                                  style: TextStyle(color: Colors.green.shade700),
+                                  style: TextStyle(
+                                    color: Colors.green.shade700,
+                                  ),
                                 ),
                               ),
                               IconButton(
@@ -219,11 +238,16 @@ class _SettingsBodyState extends State<SettingsBody> {
                                         height: 20,
                                         child: Padding(
                                           padding: EdgeInsets.all(8.0),
-                                          child: CircularProgressIndicator(strokeWidth: 2),
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                          ),
                                         ),
                                       )
                                     : IconButton(
-                                        icon: const Icon(Icons.save, color: Color(0xFF006FFD)),
+                                        icon: const Icon(
+                                          Icons.save,
+                                          color: Color(0xFF006FFD),
+                                        ),
                                         onPressed: provider.updateDisplayName,
                                       ),
                               ),
@@ -246,7 +270,8 @@ class _SettingsBodyState extends State<SettingsBody> {
                           children: [
                             AvatarSelector(
                               avatars: provider.availableAvatars,
-                              selectedAvatar: provider.settings?.avatarAsset ?? '',
+                              selectedAvatar:
+                                  provider.settings?.avatarAsset ?? '',
                               onSelect: provider.updateAvatar,
                               isLoading: provider.isSaving,
                             ),
@@ -260,7 +285,8 @@ class _SettingsBodyState extends State<SettingsBody> {
                           children: [
                             ColorSelector(
                               colors: provider.availableColors,
-                              selectedColor: provider.settings?.headerColor ?? 'blue',
+                              selectedColor:
+                                  provider.settings?.headerColor ?? 'blue',
                               onSelect: provider.updateHeaderColor,
                               isLoading: provider.isSaving,
                             ),
@@ -295,25 +321,10 @@ class _SettingsBodyState extends State<SettingsBody> {
                           ],
                         ),
 
-                        // Cerrar sesión
                         Container(
                           width: double.infinity,
                           margin: const EdgeInsets.only(top: 16),
-                          child: ElevatedButton.icon(
-                            onPressed: () {
-                              // TODO: Implementar logout
-                            },
-                            icon: const Icon(Icons.logout),
-                            label: const Text('Cerrar Sesión'),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red.shade50,
-                              foregroundColor: Colors.red.shade700,
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                          ),
+                          child: const SettingsLogoutButton(),
                         ),
 
                         const SizedBox(height: 32),
@@ -340,7 +351,12 @@ class _SettingsBodyState extends State<SettingsBody> {
     );
   }
 
-  Widget _buildSecurityOption(String title, String subtitle, IconData icon, VoidCallback onTap) {
+  Widget _buildSecurityOption(
+    String title,
+    String subtitle,
+    IconData icon,
+    VoidCallback onTap,
+  ) {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(8),
@@ -367,10 +383,7 @@ class _SettingsBodyState extends State<SettingsBody> {
                   ),
                   Text(
                     subtitle,
-                    style: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontSize: 13,
-                    ),
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
                   ),
                 ],
               ),
@@ -378,6 +391,27 @@ class _SettingsBodyState extends State<SettingsBody> {
             Icon(Icons.chevron_right, color: Colors.grey.shade400),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class SettingsLogoutButton extends riverpod.ConsumerWidget {
+  const SettingsLogoutButton({super.key});
+
+  @override
+  Widget build(BuildContext context, riverpod.WidgetRef ref) {
+    return ElevatedButton.icon(
+      onPressed: () {
+        ref.read(authControllerProvider.notifier).logout();
+      },
+      icon: const Icon(Icons.logout),
+      label: const Text('Cerrar Sesión'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.red.shade50,
+        foregroundColor: Colors.red.shade700,
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }

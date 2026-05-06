@@ -136,6 +136,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An error ocurred. Please try again.'**
   String get generic_error;
+
+  /// No description provided for @email_address.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Address'**
+  String get email_address;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// No description provided for @email_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email.'**
+  String get email_required;
+
+  /// No description provided for @email_invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid email.'**
+  String get email_invalid;
+
+  /// No description provided for @password_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password.'**
+  String get password_required;
+
+  /// No description provided for @password_min_length.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters.'**
+  String get password_min_length;
+
+  /// No description provided for @example_credentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Example credentials: emily.johnson@x.dummyjson.com / emilyspass'**
+  String get example_credentials;
+
+  /// No description provided for @or_continue_with.
+  ///
+  /// In en, this message translates to:
+  /// **'Or continue with'**
+  String get or_continue_with;
+
+  /// No description provided for @language_selector_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language_selector_label;
+
+  /// No description provided for @language_system_default.
+  ///
+  /// In en, this message translates to:
+  /// **'Default (system)'**
+  String get language_system_default;
+
+  /// No description provided for @language_english.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get language_english;
+
+  /// No description provided for @language_spanish.
+  ///
+  /// In en, this message translates to:
+  /// **'Spanish'**
+  String get language_spanish;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

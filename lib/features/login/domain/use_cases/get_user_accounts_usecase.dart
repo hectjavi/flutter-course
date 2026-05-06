@@ -5,7 +5,7 @@ class GetUserAccountsUseCase {
   final HistoryRepositoryImpl _repository;
 
   GetUserAccountsUseCase({HistoryRepositoryImpl? repository})
-      : _repository = repository ?? HistoryRepositoryImpl();
+    : _repository = repository ?? HistoryRepositoryImpl();
 
   Future<List<AccountModel>> call() async {
     return await _repository.getUserAccounts();

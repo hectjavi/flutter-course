@@ -22,4 +22,3 @@ class SocialWidget extends StatelessWidget {
     );
   }
 }
- 

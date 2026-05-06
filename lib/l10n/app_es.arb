@@ -5,5 +5,17 @@
     "balance": "Balance disponible",
     "transfer": "Transferir",
     "insuficient_founds": "Fondos insuficiente",
-    "generic_error": "A ocurrido un error, Intenta de nuevo."
+    "generic_error": "A ocurrido un error, Intenta de nuevo.",
+    "email_address": "Correo electrónico",
+    "password": "Contraseña",
+    "email_required": "Ingresa tu correo electrónico.",
+    "email_invalid": "Ingresa un correo electrónico válido.",
+    "password_required": "Ingresa tu contraseña.",
+    "password_min_length": "La contraseña debe tener al menos 6 caracteres.",
+    "example_credentials": "Credenciales de ejemplo: emily.johnson@x.dummyjson.com / emilyspass",
+    "or_continue_with": "O continúa con",
+    "language_selector_label": "Idioma",
+    "language_system_default": "Predeterminado (sistema)",
+    "language_english": "Inglés",
+    "language_spanish": "Español"
 }

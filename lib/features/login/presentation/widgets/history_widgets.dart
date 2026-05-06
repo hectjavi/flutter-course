@@ -37,7 +37,9 @@ class AccountSelectorChip extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
                 side: BorderSide(
-                  color: isSelected ? const Color(0xFF006FFD) : Colors.grey.shade300,
+                  color: isSelected
+                      ? const Color(0xFF006FFD)
+                      : Colors.grey.shade300,
                 ),
               ),
             ),
@@ -60,9 +62,12 @@ class TransactionListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencyFormat = NumberFormat.currency(symbol: '\$', decimalDigits: 2);
+    final currencyFormat = NumberFormat.currency(
+      symbol: '\$',
+      decimalDigits: 2,
+    );
     final dateFormat = DateFormat('dd MMM, HH:mm');
-    
+
     Color amountColor;
     IconData icon;
     Color iconBackground;
@@ -133,18 +138,12 @@ class TransactionListItem extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     transaction.counterpartyName ?? transaction.formattedType,
-                    style: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontSize: 13,
-                    ),
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     dateFormat.format(transaction.date),
-                    style: TextStyle(
-                      color: Colors.grey.shade500,
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
                   ),
                 ],
               ),
@@ -162,7 +161,10 @@ class TransactionListItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: transaction.status == 'completed'
                         ? Colors.green.shade50
@@ -170,7 +172,9 @@ class TransactionListItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
-                    transaction.status == 'completed' ? 'Completado' : 'Pendiente',
+                    transaction.status == 'completed'
+                        ? 'Completado'
+                        : 'Pendiente',
                     style: TextStyle(
                       color: transaction.status == 'completed'
                           ? Colors.green.shade700
@@ -201,7 +205,10 @@ class TransactionDetailModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencyFormat = NumberFormat.currency(symbol: '\$', decimalDigits: 2);
+    final currencyFormat = NumberFormat.currency(
+      symbol: '\$',
+      decimalDigits: 2,
+    );
     final dateFormat = DateFormat('EEEE, dd MMMM yyyy - HH:mm', 'es');
 
     return Container(
@@ -222,7 +229,7 @@ class TransactionDetailModal extends StatelessWidget {
               borderRadius: BorderRadius.circular(2),
             ),
           ),
-          
+
           Padding(
             padding: const EdgeInsets.all(24),
             child: Column(
@@ -235,14 +242,10 @@ class TransactionDetailModal extends StatelessWidget {
                     color: _getBackgroundColor(),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(
-                    _getIcon(),
-                    color: _getColor(),
-                    size: 40,
-                  ),
+                  child: Icon(_getIcon(), color: _getColor(), size: 40),
                 ),
                 const SizedBox(height: 20),
-                
+
                 // Monto
                 Text(
                   currencyFormat.format(transaction.amount),
@@ -253,32 +256,40 @@ class TransactionDetailModal extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                
+
                 // Tipo
                 Text(
                   transaction.formattedType,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey.shade600,
-                  ),
+                  style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
                 ),
                 const SizedBox(height: 24),
-                
+
                 // Detalles
                 _buildDetailRow('Descripción', transaction.description),
                 _buildDetailRow('Fecha', dateFormat.format(transaction.date)),
-                _buildDetailRow('Estado', transaction.status == 'completed' ? 'Completado' : 'Pendiente'),
+                _buildDetailRow(
+                  'Estado',
+                  transaction.status == 'completed'
+                      ? 'Completado'
+                      : 'Pendiente',
+                ),
                 if (transaction.counterpartyName != null)
-                  _buildDetailRow('Beneficiario', transaction.counterpartyName!),
+                  _buildDetailRow(
+                    'Beneficiario',
+                    transaction.counterpartyName!,
+                  ),
                 if (transaction.counterpartyAccount != null)
                   _buildDetailRow('Cuenta', transaction.counterpartyAccount!),
                 if (transaction.referenceNumber != null)
                   _buildDetailRow('Referencia', transaction.referenceNumber!),
                 if (transaction.category != null)
-                  _buildDetailRow('Categoría', _capitalize(transaction.category!)),
-                
+                  _buildDetailRow(
+                    'Categoría',
+                    _capitalize(transaction.category!),
+                  ),
+
                 const SizedBox(height: 24),
-                
+
                 // Botón cerrar
                 SizedBox(
                   width: double.infinity,
@@ -317,17 +328,11 @@ class TransactionDetailModal extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(
-              color: Colors.grey.shade600,
-              fontSize: 14,
-            ),
+            style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
           ),
           Text(
             value,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 14,
-            ),
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
           ),
         ],
       ),
@@ -390,7 +395,10 @@ class SummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencyFormat = NumberFormat.currency(symbol: '\$', decimalDigits: 0);
+    final currencyFormat = NumberFormat.currency(
+      symbol: '\$',
+      decimalDigits: 0,
+    );
 
     return Container(
       padding: const EdgeInsets.all(20),
@@ -416,16 +424,16 @@ class SummaryCard extends StatelessWidget {
   }
 
   Widget _buildSummaryItem(String label, double amount, Color color) {
-    final currencyFormat = NumberFormat.currency(symbol: '\$', decimalDigits: 0);
-    
+    final currencyFormat = NumberFormat.currency(
+      symbol: '\$',
+      decimalDigits: 0,
+    );
+
     return Column(
       children: [
         Text(
           label,
-          style: TextStyle(
-            color: Colors.white.withOpacity(0.8),
-            fontSize: 12,
-          ),
+          style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 12),
         ),
         const SizedBox(height: 8),
         Text(

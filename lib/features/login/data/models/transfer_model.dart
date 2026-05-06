@@ -7,7 +7,7 @@ class TransferModel {
   final String? description;
   final String confirmationToken;
   final DateTime createdAt;
-  final String status; 
+  final String status;
 
   TransferModel({
     required this.id,

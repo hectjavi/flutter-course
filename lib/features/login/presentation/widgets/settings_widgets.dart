@@ -21,10 +21,7 @@ class AvatarSelector extends StatelessWidget {
       children: [
         const Text(
           'Selecciona tu Avatar',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 16),
         Wrap(
@@ -41,7 +38,9 @@ class AvatarSelector extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: isSelected ? const Color(0xFF006FFD) : Colors.transparent,
+                    color: isSelected
+                        ? const Color(0xFF006FFD)
+                        : Colors.transparent,
                     width: 4,
                   ),
                   boxShadow: [
@@ -102,10 +101,7 @@ class ColorSelector extends StatelessWidget {
       children: [
         const Text(
           'Color del Tema',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 16),
         ...colors.map((color) {
@@ -117,10 +113,14 @@ class ColorSelector extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 12),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: isSelected ? (color['color'] as Color).withOpacity(0.1) : Colors.white,
+                color: isSelected
+                    ? (color['color'] as Color).withOpacity(0.1)
+                    : Colors.white,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: isSelected ? color['color'] as Color : Colors.grey.shade200,
+                  color: isSelected
+                      ? color['color'] as Color
+                      : Colors.grey.shade200,
                   width: isSelected ? 2 : 1,
                 ),
               ),
@@ -139,7 +139,9 @@ class ColorSelector extends StatelessWidget {
                     child: Text(
                       color['name'],
                       style: TextStyle(
-                        fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                        fontWeight: isSelected
+                            ? FontWeight.w600
+                            : FontWeight.normal,
                       ),
                     ),
                   ),
@@ -149,7 +151,7 @@ class ColorSelector extends StatelessWidget {
               ),
             ),
           );
-        }).toList(),
+        }),
       ],
     );
   }

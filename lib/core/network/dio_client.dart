@@ -26,16 +26,18 @@ class DioClient {
 
     // Interceptors
     dio.interceptors.add(ApiInterceptor());
-    
+
     // Logs
-    dio.interceptors.add(LogInterceptor(
-      request: true,
-      requestHeader: true,
-      requestBody: true,
-      responseHeader: true,
-      responseBody: true,
-      error: true,
-    ));
+    dio.interceptors.add(
+      LogInterceptor(
+        request: true,
+        requestHeader: true,
+        requestBody: true,
+        responseHeader: true,
+        responseBody: true,
+        error: true,
+      ),
+    );
   }
 
   // Métodos HTTP genéricos
@@ -121,11 +123,12 @@ class DioClient {
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
         return TimeoutException('La conexión ha expirado');
-      
+
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
-        final message = error.response?.data?['message'] ?? 'Error del servidor';
-        
+        final message =
+            error.response?.data?['message'] ?? 'Error del servidor';
+
         if (statusCode == 401) {
           return UnauthorizedException(message);
         } else if (statusCode == 404) {
@@ -133,10 +136,10 @@ class DioClient {
         } else {
           return ServerException(message);
         }
-      
+
       case DioExceptionType.connectionError:
         return ConnectionException('No hay conexión a internet');
-      
+
       default:
         return UnknownException('Error inesperado: ${error.message}');
     }

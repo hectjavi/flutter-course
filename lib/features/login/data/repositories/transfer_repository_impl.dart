@@ -7,7 +7,7 @@ class TransferRepositoryImpl {
   final TransferRemoteDataSource _remoteDataSource;
 
   TransferRepositoryImpl({TransferRemoteDataSource? remoteDataSource})
-      : _remoteDataSource = remoteDataSource ?? TransferRemoteDataSource();
+    : _remoteDataSource = remoteDataSource ?? TransferRemoteDataSource();
 
   Future<List<AccountModel>> getSourceAccounts() async {
     return await _remoteDataSource.getSourceAccounts();
@@ -17,7 +17,9 @@ class TransferRepositoryImpl {
     return await _remoteDataSource.getDestinationAccounts();
   }
 
-  Future<AccountDestinationModel?> searchDestinationAccount(String accountNumber) async {
+  Future<AccountDestinationModel?> searchDestinationAccount(
+    String accountNumber,
+  ) async {
     return await _remoteDataSource.searchDestinationAccount(accountNumber);
   }
 

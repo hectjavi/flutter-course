@@ -5,7 +5,7 @@ class GetDestinationAccountsUseCase {
   final TransferRepositoryImpl _repository;
 
   GetDestinationAccountsUseCase({TransferRepositoryImpl? repository})
-      : _repository = repository ?? TransferRepositoryImpl();
+    : _repository = repository ?? TransferRepositoryImpl();
 
   Future<List<AccountDestinationModel>> call() async {
     return await _repository.getDestinationAccounts();
