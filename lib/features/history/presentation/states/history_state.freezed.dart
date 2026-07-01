@@ -55,6 +55,9 @@ abstract class $HistoryStateCopyWith<$Res> {
     DateTime? filterEndDate,
     String? filterType,
   });
+
+  $AccountModelCopyWith<$Res>? get selectedAccount;
+  $TransactionModelCopyWith<$Res>? get selectedTransaction;
 }
 
 /// @nodoc
@@ -129,6 +132,36 @@ class _$HistoryStateCopyWithImpl<$Res, $Val extends HistoryState>
           as $Val,
     );
   }
+
+  /// Create a copy of HistoryState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AccountModelCopyWith<$Res>? get selectedAccount {
+    if (_value.selectedAccount == null) {
+      return null;
+    }
+
+    return $AccountModelCopyWith<$Res>(_value.selectedAccount!, (value) {
+      return _then(_value.copyWith(selectedAccount: value) as $Val);
+    });
+  }
+
+  /// Create a copy of HistoryState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TransactionModelCopyWith<$Res>? get selectedTransaction {
+    if (_value.selectedTransaction == null) {
+      return null;
+    }
+
+    return $TransactionModelCopyWith<$Res>(_value.selectedTransaction!, (
+      value,
+    ) {
+      return _then(_value.copyWith(selectedTransaction: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -152,6 +185,11 @@ abstract class _$$HistoryStateImplCopyWith<$Res>
     DateTime? filterEndDate,
     String? filterType,
   });
+
+  @override
+  $AccountModelCopyWith<$Res>? get selectedAccount;
+  @override
+  $TransactionModelCopyWith<$Res>? get selectedTransaction;
 }
 
 /// @nodoc

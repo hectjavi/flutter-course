@@ -1,37 +1,51 @@
-class AccountDestinationModel {
-  final String id;
-  final String accountNumber;
-  final String accountHolderName;
-  final String bankName;
-  final String? alias;
+import 'package:flutter_application_1/features/history/domain/entities/account_destination.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  AccountDestinationModel({
-    required this.id,
-    required this.accountNumber,
-    required this.accountHolderName,
-    required this.bankName,
-    this.alias,
-  });
+part 'account_destination_model.freezed.dart';
+part 'account_destination_model.g.dart';
 
-  factory AccountDestinationModel.fromJson(Map<String, dynamic> json) {
+@freezed
+class AccountDestinationModel
+    with _$AccountDestinationModel {
+  const AccountDestinationModel._();
+
+  const factory AccountDestinationModel({
+    required String id,
+    required String accountNumber,
+    required String accountHolderName,
+    required String bankName,
+    String? alias,
+  }) = _AccountDestinationModel;
+
+  factory AccountDestinationModel.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      _$AccountDestinationModelFromJson(json);
+
+  factory AccountDestinationModel.fromEntity(
+    AccountDestination destination,
+  ) {
     return AccountDestinationModel(
-      id: json['id'],
-      accountNumber: json['accountNumber'],
-      accountHolderName: json['accountHolderName'],
-      bankName: json['bankName'],
-      alias: json['alias'],
+      id: destination.id,
+      accountNumber: destination.accountNumber,
+      accountHolderName:
+          destination.accountHolderName,
+      bankName: destination.bankName,
+      alias: destination.alias,
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'accountNumber': accountNumber,
-      'accountHolderName': accountHolderName,
-      'bankName': bankName,
-      'alias': alias,
-    };
+  AccountDestination toEntity() {
+    return AccountDestination(
+      id: id,
+      accountNumber: accountNumber,
+      accountHolderName:
+          accountHolderName,
+      bankName: bankName,
+      alias: alias,
+    );
   }
 
-  String get displayName => alias ?? accountHolderName;
+  String get displayName =>
+      alias ?? accountHolderName;
 }

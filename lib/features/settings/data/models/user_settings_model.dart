@@ -1,30 +1,42 @@
 import 'dart:ui';
 
-class UserSettingsModel {
-  final String displayName;
-  final String avatarAsset;
-  final String headerColor; // 'blue', 'green', 'purple', 'orange', 'red'
+import 'package:flutter_application_1/features/settings/domain/entities/user_settings.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  UserSettingsModel({
-    required this.displayName,
-    required this.avatarAsset,
-    required this.headerColor,
-  });
+part 'user_settings_model.freezed.dart';
+part 'user_settings_model.g.dart';
 
-  factory UserSettingsModel.fromJson(Map<String, dynamic> json) {
+@freezed
+class UserSettingsModel with _$UserSettingsModel {
+  const UserSettingsModel._();
+
+  const factory UserSettingsModel({
+    required String displayName,
+    required String avatarAsset,
+    required String headerColor,
+  }) = _UserSettingsModel;
+
+  factory UserSettingsModel.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      _$UserSettingsModelFromJson(json);
+
+  factory UserSettingsModel.fromEntity(
+    UserSettings settings,
+  ) {
     return UserSettingsModel(
-      displayName: json['displayName'],
-      avatarAsset: json['avatarAsset'],
-      headerColor: json['headerColor'],
+      displayName: settings.displayName,
+      avatarAsset: settings.avatarAsset,
+      headerColor: settings.headerColor,
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'displayName': displayName,
-      'avatarAsset': avatarAsset,
-      'headerColor': headerColor,
-    };
+  UserSettings toEntity() {
+    return UserSettings(
+      displayName: displayName,
+      avatarAsset: avatarAsset,
+      headerColor: headerColor,
+    );
   }
 
   Color getHeaderColor() {
@@ -45,9 +57,15 @@ class UserSettingsModel {
 
   List<Color> getHeaderGradient() {
     final base = getHeaderColor();
+
     return [
       base,
-      Color.fromARGB(255, base.red ~/ 2, base.green ~/ 2, base.blue ~/ 2),
+      Color.fromARGB(
+        255,
+        base.red ~/ 2,
+        base.green ~/ 2,
+        base.blue ~/ 2,
+      ),
     ];
   }
 }

@@ -1,43 +1,51 @@
-class AccountModel {
-  final String id;
-  final String accountNumber;
-  final String accountType;
-  final double balance;
-  final String currency;
-  final String bankName;
-  final String status;
+import 'package:flutter_application_1/features/history/domain/entities/account.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  AccountModel({
-    required this.id,
-    required this.accountNumber,
-    required this.accountType,
-    required this.balance,
-    required this.currency,
-    required this.bankName,
-    required this.status,
-  });
+part 'account_model.freezed.dart';
+part 'account_model.g.dart';
 
-  factory AccountModel.fromJson(Map<String, dynamic> json) {
+@freezed
+class AccountModel with _$AccountModel {
+  const AccountModel._();
+
+  const factory AccountModel({
+    required String id,
+    required String accountNumber,
+    required String accountType,
+    required double balance,
+    required String currency,
+    required String bankName,
+    required String status,
+  }) = _AccountModel;
+
+  factory AccountModel.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      _$AccountModelFromJson(json);
+
+  factory AccountModel.fromEntity(
+    Account account,
+  ) {
     return AccountModel(
-      id: json['id'],
-      accountNumber: json['accountNumber'],
-      accountType: json['accountType'],
-      balance: json['balance'].toDouble(),
-      currency: json['currency'],
-      bankName: json['bankName'],
-      status: json['status'],
+      id: account.id,
+      accountNumber: account.accountNumber,
+      accountType: account.accountType,
+      balance: account.balance,
+      currency: account.currency,
+      bankName: account.bankName,
+      status: account.status,
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'accountNumber': accountNumber,
-      'accountType': accountType,
-      'balance': balance,
-      'currency': currency,
-      'bankName': bankName,
-      'status': status,
-    };
+  Account toEntity() {
+    return Account(
+      id: id,
+      accountNumber: accountNumber,
+      accountType: accountType,
+      balance: balance,
+      currency: currency,
+      bankName: bankName,
+      status: status,
+    );
   }
 }

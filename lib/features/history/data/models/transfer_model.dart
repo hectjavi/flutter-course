@@ -1,51 +1,61 @@
-class TransferModel {
-  final String id;
-  final String sourceAccountId;
-  final String destinationAccountId;
-  final double amount;
-  final String currency;
-  final String? description;
-  final String confirmationToken;
-  final DateTime createdAt;
-  final String status;
+import 'package:flutter_application_1/features/history/domain/entities/transfer.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  TransferModel({
-    required this.id,
-    required this.sourceAccountId,
-    required this.destinationAccountId,
-    required this.amount,
-    required this.currency,
-    this.description,
-    required this.confirmationToken,
-    required this.createdAt,
-    required this.status,
-  });
+part 'transfer_model.freezed.dart';
+part 'transfer_model.g.dart';
 
-  factory TransferModel.fromJson(Map<String, dynamic> json) {
+@freezed
+class TransferModel with _$TransferModel {
+  const TransferModel._();
+
+  const factory TransferModel({
+    required String id,
+    required String sourceAccountId,
+    required String destinationAccountId,
+    required double amount,
+    required String currency,
+    String? description,
+    required String confirmationToken,
+    required DateTime createdAt,
+    required String status,
+  }) = _TransferModel;
+
+  factory TransferModel.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      _$TransferModelFromJson(json);
+
+  factory TransferModel.fromEntity(
+    Transfer transfer,
+  ) {
     return TransferModel(
-      id: json['id'],
-      sourceAccountId: json['sourceAccountId'],
-      destinationAccountId: json['destinationAccountId'],
-      amount: json['amount'].toDouble(),
-      currency: json['currency'],
-      description: json['description'],
-      confirmationToken: json['confirmationToken'],
-      createdAt: DateTime.parse(json['createdAt']),
-      status: json['status'],
+      id: transfer.id,
+      sourceAccountId: transfer.sourceAccountId,
+      destinationAccountId:
+          transfer.destinationAccountId,
+      amount: transfer.amount,
+      currency: transfer.currency,
+      description: transfer.description,
+      confirmationToken:
+          transfer.confirmationToken,
+      createdAt: transfer.createdAt,
+      status: transfer.status,
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'sourceAccountId': sourceAccountId,
-      'destinationAccountId': destinationAccountId,
-      'amount': amount,
-      'currency': currency,
-      'description': description,
-      'confirmationToken': confirmationToken,
-      'createdAt': createdAt.toIso8601String(),
-      'status': status,
-    };
+  Transfer toEntity() {
+    return Transfer(
+      id: id,
+      sourceAccountId: sourceAccountId,
+      destinationAccountId:
+          destinationAccountId,
+      amount: amount,
+      currency: currency,
+      description: description,
+      confirmationToken:
+          confirmationToken,
+      createdAt: createdAt,
+      status: status,
+    );
   }
 }

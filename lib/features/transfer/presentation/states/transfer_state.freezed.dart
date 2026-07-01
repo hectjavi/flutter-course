@@ -58,6 +58,10 @@ abstract class $TransferStateCopyWith<$Res> {
     TransferModel? lastTransfer,
     bool tokenSent,
   });
+
+  $AccountModelCopyWith<$Res>? get selectedSourceAccount;
+  $AccountDestinationModelCopyWith<$Res>? get selectedDestinationAccount;
+  $TransferModelCopyWith<$Res>? get lastTransfer;
 }
 
 /// @nodoc
@@ -137,6 +141,53 @@ class _$TransferStateCopyWithImpl<$Res, $Val extends TransferState>
           as $Val,
     );
   }
+
+  /// Create a copy of TransferState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AccountModelCopyWith<$Res>? get selectedSourceAccount {
+    if (_value.selectedSourceAccount == null) {
+      return null;
+    }
+
+    return $AccountModelCopyWith<$Res>(_value.selectedSourceAccount!, (value) {
+      return _then(_value.copyWith(selectedSourceAccount: value) as $Val);
+    });
+  }
+
+  /// Create a copy of TransferState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AccountDestinationModelCopyWith<$Res>? get selectedDestinationAccount {
+    if (_value.selectedDestinationAccount == null) {
+      return null;
+    }
+
+    return $AccountDestinationModelCopyWith<$Res>(
+      _value.selectedDestinationAccount!,
+      (value) {
+        return _then(
+          _value.copyWith(selectedDestinationAccount: value) as $Val,
+        );
+      },
+    );
+  }
+
+  /// Create a copy of TransferState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TransferModelCopyWith<$Res>? get lastTransfer {
+    if (_value.lastTransfer == null) {
+      return null;
+    }
+
+    return $TransferModelCopyWith<$Res>(_value.lastTransfer!, (value) {
+      return _then(_value.copyWith(lastTransfer: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -161,6 +212,13 @@ abstract class _$$TransferStateImplCopyWith<$Res>
     TransferModel? lastTransfer,
     bool tokenSent,
   });
+
+  @override
+  $AccountModelCopyWith<$Res>? get selectedSourceAccount;
+  @override
+  $AccountDestinationModelCopyWith<$Res>? get selectedDestinationAccount;
+  @override
+  $TransferModelCopyWith<$Res>? get lastTransfer;
 }
 
 /// @nodoc

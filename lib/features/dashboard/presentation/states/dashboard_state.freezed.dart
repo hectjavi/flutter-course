@@ -42,6 +42,8 @@ abstract class $DashboardStateCopyWith<$Res> {
     String? error,
     String welcomeMessage,
   });
+
+  $AccountModelCopyWith<$Res>? get account;
 }
 
 /// @nodoc
@@ -86,6 +88,20 @@ class _$DashboardStateCopyWithImpl<$Res, $Val extends DashboardState>
           as $Val,
     );
   }
+
+  /// Create a copy of DashboardState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AccountModelCopyWith<$Res>? get account {
+    if (_value.account == null) {
+      return null;
+    }
+
+    return $AccountModelCopyWith<$Res>(_value.account!, (value) {
+      return _then(_value.copyWith(account: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -103,6 +119,9 @@ abstract class _$$DashboardStateImplCopyWith<$Res>
     String? error,
     String welcomeMessage,
   });
+
+  @override
+  $AccountModelCopyWith<$Res>? get account;
 }
 
 /// @nodoc

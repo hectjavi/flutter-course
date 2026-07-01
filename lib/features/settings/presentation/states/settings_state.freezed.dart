@@ -50,6 +50,8 @@ abstract class $SettingsStateCopyWith<$Res> {
     List<Map<String, String>> availableAvatars,
     List<Map<String, dynamic>> availableColors,
   });
+
+  $UserSettingsModelCopyWith<$Res>? get settings;
 }
 
 /// @nodoc
@@ -109,6 +111,20 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
           as $Val,
     );
   }
+
+  /// Create a copy of SettingsState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $UserSettingsModelCopyWith<$Res>? get settings {
+    if (_value.settings == null) {
+      return null;
+    }
+
+    return $UserSettingsModelCopyWith<$Res>(_value.settings!, (value) {
+      return _then(_value.copyWith(settings: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -129,6 +145,9 @@ abstract class _$$SettingsStateImplCopyWith<$Res>
     List<Map<String, String>> availableAvatars,
     List<Map<String, dynamic>> availableColors,
   });
+
+  @override
+  $UserSettingsModelCopyWith<$Res>? get settings;
 }
 
 /// @nodoc
