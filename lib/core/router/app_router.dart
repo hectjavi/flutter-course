@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/router/app_routes.dart';
-import 'package:flutter_application_1/features/auth/presentation/providers/auth_provider.dart';
+import 'package:flutter_application_1/features/auth/presentation/states/auth_notifier.dart';
 import 'package:flutter_application_1/features/auth/presentation/states/auth_state.dart';
 import 'package:flutter_application_1/features/auth/presentation/views/login_view.dart';
-import 'package:flutter_application_1/features/login/presentation/views/dashboard_view.dart';
-import 'package:flutter_application_1/features/login/presentation/views/history_view.dart';
-import 'package:flutter_application_1/features/login/presentation/views/settings_view.dart';
-import 'package:flutter_application_1/features/login/presentation/views/transfer_view.dart';
+import 'package:flutter_application_1/features/dashboard/presentation/views/dashboard_view.dart';
+import 'package:flutter_application_1/features/history/presentation/views/history_view.dart';
+import 'package:flutter_application_1/features/settings/presentation/views/settings_view.dart';
+import 'package:flutter_application_1/features/transfer/presentation/views/transfer_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 

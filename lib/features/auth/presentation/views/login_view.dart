@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/assets.dart';
 import 'package:flutter_application_1/core/localization/locale_provider.dart';
-import 'package:flutter_application_1/features/auth/presentation/providers/auth_provider.dart';
+import 'package:flutter_application_1/features/auth/presentation/states/auth_notifier.dart';
 import 'package:flutter_application_1/features/auth/presentation/states/auth_state.dart';
-import 'package:flutter_application_1/features/login/presentation/widgets/SocialWidget.dart';
+import 'package:flutter_application_1/features/auth/presentation/widgets/SocialWidget.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
