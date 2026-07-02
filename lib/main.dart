@@ -5,6 +5,11 @@ import 'package:flutter_application_1/core/router/app_router.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+void main(List<String> args) {
+  Env.environment = Environment.development;
+  runProject();
+}
+
 void runProject() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Env.initialize();
