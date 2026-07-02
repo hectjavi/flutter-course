@@ -15,12 +15,9 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
-AuthUserModel _$AuthUserModelFromJson(Map<String, dynamic> json) {
-  return _AuthUserModel.fromJson(json);
-}
-
 /// @nodoc
 mixin _$AuthUserModel {
+  String get uid => throw _privateConstructorUsedError;
   int get id => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
@@ -29,9 +26,6 @@ mixin _$AuthUserModel {
   String get image => throw _privateConstructorUsedError;
   String get accessToken => throw _privateConstructorUsedError;
   String get refreshToken => throw _privateConstructorUsedError;
-
-  /// Serializes this AuthUserModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of AuthUserModel
   /// with the given fields replaced by the non-null parameter values.
@@ -48,6 +42,7 @@ abstract class $AuthUserModelCopyWith<$Res> {
   ) = _$AuthUserModelCopyWithImpl<$Res, AuthUserModel>;
   @useResult
   $Res call({
+    String uid,
     int id,
     String username,
     String email,
@@ -74,6 +69,7 @@ class _$AuthUserModelCopyWithImpl<$Res, $Val extends AuthUserModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? uid = null,
     Object? id = null,
     Object? username = null,
     Object? email = null,
@@ -85,6 +81,10 @@ class _$AuthUserModelCopyWithImpl<$Res, $Val extends AuthUserModel>
   }) {
     return _then(
       _value.copyWith(
+            uid: null == uid
+                ? _value.uid
+                : uid // ignore: cast_nullable_to_non_nullable
+                      as String,
             id: null == id
                 ? _value.id
                 : id // ignore: cast_nullable_to_non_nullable
@@ -133,6 +133,7 @@ abstract class _$$AuthUserModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
+    String uid,
     int id,
     String username,
     String email,
@@ -158,6 +159,7 @@ class __$$AuthUserModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? uid = null,
     Object? id = null,
     Object? username = null,
     Object? email = null,
@@ -169,6 +171,10 @@ class __$$AuthUserModelImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$AuthUserModelImpl(
+        uid: null == uid
+            ? _value.uid
+            : uid // ignore: cast_nullable_to_non_nullable
+                  as String,
         id: null == id
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
@@ -207,9 +213,10 @@ class __$$AuthUserModelImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$AuthUserModelImpl extends _AuthUserModel {
   const _$AuthUserModelImpl({
+    required this.uid,
     required this.id,
     required this.username,
     required this.email,
@@ -220,9 +227,8 @@ class _$AuthUserModelImpl extends _AuthUserModel {
     required this.refreshToken,
   }) : super._();
 
-  factory _$AuthUserModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AuthUserModelImplFromJson(json);
-
+  @override
+  final String uid;
   @override
   final int id;
   @override
@@ -242,7 +248,7 @@ class _$AuthUserModelImpl extends _AuthUserModel {
 
   @override
   String toString() {
-    return 'AuthUserModel(id: $id, username: $username, email: $email, firstName: $firstName, lastName: $lastName, image: $image, accessToken: $accessToken, refreshToken: $refreshToken)';
+    return 'AuthUserModel(uid: $uid, id: $id, username: $username, email: $email, firstName: $firstName, lastName: $lastName, image: $image, accessToken: $accessToken, refreshToken: $refreshToken)';
   }
 
   @override
@@ -250,6 +256,7 @@ class _$AuthUserModelImpl extends _AuthUserModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AuthUserModelImpl &&
+            (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.username, username) ||
                 other.username == username) &&
@@ -265,10 +272,10 @@ class _$AuthUserModelImpl extends _AuthUserModel {
                 other.refreshToken == refreshToken));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
     runtimeType,
+    uid,
     id,
     username,
     email,
@@ -286,15 +293,11 @@ class _$AuthUserModelImpl extends _AuthUserModel {
   @pragma('vm:prefer-inline')
   _$$AuthUserModelImplCopyWith<_$AuthUserModelImpl> get copyWith =>
       __$$AuthUserModelImplCopyWithImpl<_$AuthUserModelImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$AuthUserModelImplToJson(this);
-  }
 }
 
 abstract class _AuthUserModel extends AuthUserModel {
   const factory _AuthUserModel({
+    required final String uid,
     required final int id,
     required final String username,
     required final String email,
@@ -306,9 +309,8 @@ abstract class _AuthUserModel extends AuthUserModel {
   }) = _$AuthUserModelImpl;
   const _AuthUserModel._() : super._();
 
-  factory _AuthUserModel.fromJson(Map<String, dynamic> json) =
-      _$AuthUserModelImpl.fromJson;
-
+  @override
+  String get uid;
   @override
   int get id;
   @override
