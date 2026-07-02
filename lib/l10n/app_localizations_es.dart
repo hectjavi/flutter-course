@@ -62,7 +62,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get example_credentials =>
-      'Usa una cuenta registrada en Firebase Authentication.';
+      'Usa una cuenta registrada en Firebase Authentication. Ej:(test@test.com/test1234)';
 
   @override
   String get or_continue_with => 'O continúa con';
