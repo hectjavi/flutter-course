@@ -45,10 +45,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get password_required => 'Ingresa tu contraseña.';
 
   @override
-  String get password_min_length => 'La contraseña debe tener al menos 6 caracteres.';
+  String get password_min_length =>
+      'La contraseña debe tener al menos 6 caracteres.';
 
   @override
-  String get example_credentials => 'Credenciales de ejemplo: emily.johnson@x.dummyjson.com / emilyspass';
+  String get example_credentials =>
+      'Credenciales de ejemplo: emily.johnson@x.dummyjson.com / emilyspass';
 
   @override
   String get or_continue_with => 'O continúa con';
