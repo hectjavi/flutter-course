@@ -4,7 +4,7 @@ import 'package:flutter_application_1/core/localization/language_selector.dart';
 import 'package:flutter_application_1/features/auth/presentation/states/auth_notifier.dart';
 import 'package:flutter_application_1/features/auth/presentation/states/auth_state.dart';
 import 'package:flutter_application_1/features/auth/presentation/widgets/SocialWidget.dart';
-import 'package:flutter_application_1/l10n/app_localizations.dart';
+import 'package:flutter_application_1/i18n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LoginView extends StatelessWidget {
