@@ -116,6 +116,30 @@ abstract class AppLocalizations {
   /// **'Login'**
   String get login;
 
+  /// No description provided for @register.
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get register;
+
+  /// No description provided for @create_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get create_account;
+
+  /// No description provided for @already_have_account.
+  ///
+  /// In en, this message translates to:
+  /// **'I already have an account'**
+  String get already_have_account;
+
+  /// No description provided for @dont_have_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new account'**
+  String get dont_have_account;
+
   /// No description provided for @balance.
   ///
   /// In en, this message translates to:
@@ -179,7 +203,7 @@ abstract class AppLocalizations {
   /// No description provided for @example_credentials.
   ///
   /// In en, this message translates to:
-  /// **'Example credentials: emily.johnson@x.dummyjson.com / emilyspass'**
+  /// **'Use an account registered in Firebase Authentication.'**
   String get example_credentials;
 
   /// No description provided for @or_continue_with.

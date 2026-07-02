@@ -40,12 +40,11 @@ class _BodyWidgetState extends ConsumerState<BodyWidget> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool showPassword = false;
+  bool isRegisterMode = false;
 
   @override
   void initState() {
     super.initState();
-    emailController.text = 'emily.johnson@x.dummyjson.com';
-    passwordController.text = 'emilyspass';
   }
 
   @override
@@ -90,7 +89,11 @@ class _BodyWidgetState extends ConsumerState<BodyWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                HeaderWidget(title: localizations.login),
+                HeaderWidget(
+                  title: isRegisterMode
+                      ? localizations.register
+                      : localizations.login,
+                ),
                 const SizedBox(height: 16),
                 const LanguageSelector(),
                 const SizedBox(height: 24),
@@ -129,16 +132,18 @@ class _BodyWidgetState extends ConsumerState<BodyWidget> {
                   validator: (value) => _validatePassword(value, localizations),
                 ),
                 const SizedBox(height: 16),
-                Text(
-                  localizations.forgot_password,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.blue,
+                if (!isRegisterMode) ...[
+                  Text(
+                    localizations.forgot_password,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.blue,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 16),
+                  const SizedBox(height: 16),
+                ],
                 ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(Colors.blue),
@@ -154,25 +159,44 @@ class _BodyWidgetState extends ConsumerState<BodyWidget> {
                           ),
                         )
                       : Text(
-                          localizations.login,
+                          isRegisterMode
+                              ? localizations.create_account
+                              : localizations.login,
                           style: TextStyle(color: Colors.white),
                         ),
                 ),
                 const SizedBox(height: 16),
-                Text(
-                  localizations.example_credentials,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.black),
-                ),
-                const SizedBox(height: 24),
-                const Divider(),
-                const SizedBox(height: 24),
-                Text(
-                  localizations.or_continue_with,
-                  textAlign: TextAlign.center,
+                TextButton(
+                  onPressed: isLoading
+                      ? null
+                      : () {
+                          setState(() {
+                            isRegisterMode = !isRegisterMode;
+                          });
+                        },
+                  child: Text(
+                    isRegisterMode
+                        ? localizations.already_have_account
+                        : localizations.dont_have_account,
+                  ),
                 ),
                 const SizedBox(height: 16),
-                const SocialRow(),
+                if (!isRegisterMode) ...[
+                  Text(
+                    localizations.example_credentials,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                  const SizedBox(height: 24),
+                  const Divider(),
+                  const SizedBox(height: 24),
+                  Text(
+                    localizations.or_continue_with,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  const SocialRow(),
+                ],
               ],
             ),
           ),
@@ -187,12 +211,15 @@ class _BodyWidgetState extends ConsumerState<BodyWidget> {
       return;
     }
 
-    await ref
-        .read(authControllerProvider.notifier)
-        .login(
-          email: emailController.text.trim(),
-          password: passwordController.text,
-        );
+    final controller = ref.read(authControllerProvider.notifier);
+    final email = emailController.text.trim();
+    final password = passwordController.text;
+
+    if (isRegisterMode) {
+      await controller.register(email: email, password: password);
+    } else {
+      await controller.login(email: email, password: password);
+    }
   }
 
   String? _validateEmail(String? value, AppLocalizations localizations) {

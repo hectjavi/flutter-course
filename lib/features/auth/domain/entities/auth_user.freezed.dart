@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AuthUser {
+  String get uid => throw _privateConstructorUsedError;
   int get id => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
@@ -39,6 +40,7 @@ abstract class $AuthUserCopyWith<$Res> {
       _$AuthUserCopyWithImpl<$Res, AuthUser>;
   @useResult
   $Res call({
+    String uid,
     int id,
     String username,
     String email,
@@ -65,6 +67,7 @@ class _$AuthUserCopyWithImpl<$Res, $Val extends AuthUser>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? uid = null,
     Object? id = null,
     Object? username = null,
     Object? email = null,
@@ -76,6 +79,10 @@ class _$AuthUserCopyWithImpl<$Res, $Val extends AuthUser>
   }) {
     return _then(
       _value.copyWith(
+            uid: null == uid
+                ? _value.uid
+                : uid // ignore: cast_nullable_to_non_nullable
+                      as String,
             id: null == id
                 ? _value.id
                 : id // ignore: cast_nullable_to_non_nullable
@@ -124,6 +131,7 @@ abstract class _$$AuthUserImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
+    String uid,
     int id,
     String username,
     String email,
@@ -149,6 +157,7 @@ class __$$AuthUserImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? uid = null,
     Object? id = null,
     Object? username = null,
     Object? email = null,
@@ -160,6 +169,10 @@ class __$$AuthUserImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$AuthUserImpl(
+        uid: null == uid
+            ? _value.uid
+            : uid // ignore: cast_nullable_to_non_nullable
+                  as String,
         id: null == id
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
@@ -201,6 +214,7 @@ class __$$AuthUserImplCopyWithImpl<$Res>
 
 class _$AuthUserImpl implements _AuthUser {
   const _$AuthUserImpl({
+    required this.uid,
     required this.id,
     required this.username,
     required this.email,
@@ -211,6 +225,8 @@ class _$AuthUserImpl implements _AuthUser {
     required this.refreshToken,
   });
 
+  @override
+  final String uid;
   @override
   final int id;
   @override
@@ -230,7 +246,7 @@ class _$AuthUserImpl implements _AuthUser {
 
   @override
   String toString() {
-    return 'AuthUser(id: $id, username: $username, email: $email, firstName: $firstName, lastName: $lastName, image: $image, accessToken: $accessToken, refreshToken: $refreshToken)';
+    return 'AuthUser(uid: $uid, id: $id, username: $username, email: $email, firstName: $firstName, lastName: $lastName, image: $image, accessToken: $accessToken, refreshToken: $refreshToken)';
   }
 
   @override
@@ -238,6 +254,7 @@ class _$AuthUserImpl implements _AuthUser {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AuthUserImpl &&
+            (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.username, username) ||
                 other.username == username) &&
@@ -256,6 +273,7 @@ class _$AuthUserImpl implements _AuthUser {
   @override
   int get hashCode => Object.hash(
     runtimeType,
+    uid,
     id,
     username,
     email,
@@ -277,6 +295,7 @@ class _$AuthUserImpl implements _AuthUser {
 
 abstract class _AuthUser implements AuthUser {
   const factory _AuthUser({
+    required final String uid,
     required final int id,
     required final String username,
     required final String email,
@@ -287,6 +306,8 @@ abstract class _AuthUser implements AuthUser {
     required final String refreshToken,
   }) = _$AuthUserImpl;
 
+  @override
+  String get uid;
   @override
   int get id;
   @override

@@ -1,49 +1,24 @@
-import 'package:flutter_application_1/features/auth/data/data_sources/auth_local_data_source.dart';
-import 'package:flutter_application_1/features/auth/data/data_sources/auth_remote_data_source.dart';
-import 'package:flutter_application_1/features/auth/data/repositories/auth_repository_impl.dart';
+import 'dart:async';
+
+import 'package:flutter_application_1/features/auth/auth_dependencies.dart';
 import 'package:flutter_application_1/features/auth/domain/entities/auth_user.dart';
-import 'package:flutter_application_1/features/auth/domain/repositories/auth_repository.dart';
+import 'package:flutter_application_1/features/auth/domain/exceptions/auth_exception.dart';
 import 'package:flutter_application_1/features/auth/domain/use_cases/get_stored_session_use_case.dart';
 import 'package:flutter_application_1/features/auth/domain/use_cases/login_use_case.dart';
 import 'package:flutter_application_1/features/auth/domain/use_cases/logout_use_case.dart';
+import 'package:flutter_application_1/features/auth/domain/use_cases/register_use_case.dart';
+import 'package:flutter_application_1/features/auth/domain/use_cases/watch_auth_state_use_case.dart';
 import 'package:flutter_application_1/features/auth/presentation/states/auth_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>((ref) {
-  return AuthRemoteDataSource();
-});
-
-final authLocalDataSourceProvider = Provider<AuthLocalDataSource>((ref) {
-  return AuthLocalDataSource();
-});
-
-final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  return AuthRepositoryImpl(
-    remoteDataSource: ref.watch(authRemoteDataSourceProvider),
-    localDataSource: ref.watch(authLocalDataSourceProvider),
-  );
-});
-
-final loginUseCaseProvider = Provider<LoginUseCase>((ref) {
-  return LoginUseCase(ref.watch(authRepositoryProvider));
-});
-
-final logoutUseCaseProvider = Provider<LogoutUseCase>((ref) {
-  return LogoutUseCase(ref.watch(authRepositoryProvider));
-});
-
-final getStoredSessionUseCaseProvider = Provider<GetStoredSessionUseCase>((
-  ref,
-) {
-  return GetStoredSessionUseCase(ref.watch(authRepositoryProvider));
-});
 
 final authControllerProvider = StateNotifierProvider<AuthController, AuthState>(
   (ref) {
     return AuthController(
       loginUseCase: ref.watch(loginUseCaseProvider),
+      registerUseCase: ref.watch(registerUseCaseProvider),
       logoutUseCase: ref.watch(logoutUseCaseProvider),
       getStoredSessionUseCase: ref.watch(getStoredSessionUseCaseProvider),
+      watchAuthStateUseCase: ref.watch(watchAuthStateUseCaseProvider),
     );
   },
 );
@@ -51,41 +26,53 @@ final authControllerProvider = StateNotifierProvider<AuthController, AuthState>(
 class AuthController extends StateNotifier<AuthState> {
   AuthController({
     required LoginUseCase loginUseCase,
+    required RegisterUseCase registerUseCase,
     required LogoutUseCase logoutUseCase,
     required GetStoredSessionUseCase getStoredSessionUseCase,
+    required WatchAuthStateUseCase watchAuthStateUseCase,
   }) : _loginUseCase = loginUseCase,
+       _registerUseCase = registerUseCase,
        _logoutUseCase = logoutUseCase,
        _getStoredSessionUseCase = getStoredSessionUseCase,
+       _watchAuthStateUseCase = watchAuthStateUseCase,
        super(const AuthState.checkingSession()) {
+    _authSubscription = _watchAuthStateUseCase().listen(_setSessionState);
     Future.microtask(restoreSession);
   }
 
   final LoginUseCase _loginUseCase;
+  final RegisterUseCase _registerUseCase;
   final LogoutUseCase _logoutUseCase;
   final GetStoredSessionUseCase _getStoredSessionUseCase;
+  final WatchAuthStateUseCase _watchAuthStateUseCase;
+  StreamSubscription<AuthUser?>? _authSubscription;
 
   Future<void> restoreSession() async {
     state = const AuthState.checkingSession();
 
     try {
-      final AuthUser? user = await _getStoredSessionUseCase();
-      state = user == null
-          ? const AuthState.unauthenticated()
-          : AuthState.authenticated(user);
+      final user = await _getStoredSessionUseCase();
+      _setSessionState(user);
+    } on AuthException catch (error) {
+      state = AuthState.error(error.message);
     } catch (_) {
       state = const AuthState.unauthenticated();
     }
   }
 
   Future<void> login({required String email, required String password}) async {
-    state = const AuthState.loading();
+    await _runAuthAction(() {
+      return _loginUseCase(email: email, password: password);
+    });
+  }
 
-    try {
-      final user = await _loginUseCase(email: email, password: password);
-      state = AuthState.authenticated(user);
-    } catch (error) {
-      state = AuthState.error(_readableError(error));
-    }
+  Future<void> register({
+    required String email,
+    required String password,
+  }) async {
+    await _runAuthAction(() {
+      return _registerUseCase(email: email, password: password);
+    });
   }
 
   Future<void> logout() async {
@@ -93,11 +80,28 @@ class AuthController extends StateNotifier<AuthState> {
     state = const AuthState.unauthenticated();
   }
 
-  String _readableError(Object error) {
-    final message = error.toString().replaceFirst('Exception: ', '');
-    if (message.trim().isEmpty) {
-      return 'No pudimos iniciar sesión. Intenta de nuevo.';
+  Future<void> _runAuthAction(Future<AuthUser> Function() action) async {
+    state = const AuthState.loading();
+
+    try {
+      final user = await action();
+      state = AuthState.authenticated(user);
+    } on AuthException catch (error) {
+      state = AuthState.error(error.message);
+    } catch (_) {
+      state = const AuthState.error('No se pudo completar la autenticacion.');
     }
-    return message;
+  }
+
+  void _setSessionState(AuthUser? user) {
+    state = user == null
+        ? const AuthState.unauthenticated()
+        : AuthState.authenticated(user);
+  }
+
+  @override
+  void dispose() {
+    _authSubscription?.cancel();
+    super.dispose();
   }
 }

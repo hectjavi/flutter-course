@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/environment/env.dart';
+import 'package:flutter_application_1/core/firebase/firebase_bootstrap.dart';
+import 'package:flutter_application_1/core/firebase/firebase_enabled_provider.dart';
 import 'package:flutter_application_1/core/localization/locale_provider.dart';
 import 'package:flutter_application_1/core/router/app_router.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
@@ -13,7 +15,13 @@ void main(List<String> args) {
 void runProject() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Env.initialize();
-  runApp(const ProviderScope(child: MyApp()));
+  final firebaseEnabled = await FirebaseBootstrap.initializeIfConfigured();
+  runApp(
+    ProviderScope(
+      overrides: [firebaseEnabledProvider.overrideWithValue(firebaseEnabled)],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends ConsumerWidget {

@@ -18,6 +18,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get login => 'Login';
 
   @override
+  String get register => 'Register';
+
+  @override
+  String get create_account => 'Create account';
+
+  @override
+  String get already_have_account => 'I already have an account';
+
+  @override
+  String get dont_have_account => 'Create a new account';
+
+  @override
   String get balance => 'Avilable balance';
 
   @override
@@ -49,7 +61,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get example_credentials =>
-      'Example credentials: emily.johnson@x.dummyjson.com / emilyspass';
+      'Use an account registered in Firebase Authentication.';
 
   @override
   String get or_continue_with => 'Or continue with';
