@@ -1,5 +1,5 @@
-import 'package:flutter_application_1/features/history/data/repositories/history_repository_impl.dart';
 import 'package:flutter_application_1/features/history/data/models/transaction_model.dart';
+import 'package:flutter_application_1/features/history/data/repositories/history_repository_impl.dart';
 
 class GetTransactionsUseCase {
   final HistoryRepositoryImpl _repository;
@@ -10,17 +10,25 @@ class GetTransactionsUseCase {
             repository ??
             HistoryRepositoryImpl();
 
-  Stream<List<TransactionModel>> call(
+  Future<List<TransactionModel>> call(
     String accountId, {
     DateTime? startDate,
     DateTime? endDate,
     String? type,
-  }) {
-    return _repository.getTransactionsByAccount(
+  }) async {
+    return await _repository
+        .getTransactionsByAccount(
       accountId,
       startDate: startDate,
       endDate: endDate,
       type: type,
     );
+  }
+
+  bool get hasMore =>
+      _repository.hasMore;
+
+  void resetPagination() {
+    _repository.resetPagination();
   }
 }

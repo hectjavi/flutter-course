@@ -7,16 +7,20 @@ class HistoryView extends ConsumerStatefulWidget {
   const HistoryView({super.key});
 
   @override
-  ConsumerState<HistoryView> createState() => _HistoryViewState();
+  ConsumerState<HistoryView> createState() =>
+      _HistoryViewState();
 }
 
-class _HistoryViewState extends ConsumerState<HistoryView> {
+class _HistoryViewState
+    extends ConsumerState<HistoryView> {
   @override
   void initState() {
     super.initState();
 
     Future.microtask(() {
-      ref.read(historyProvider.notifier).loadInitialData();
+      ref
+          .read(historyProvider.notifier)
+          .loadInitialData();
     });
   }
 
@@ -32,11 +36,45 @@ class _HistoryViewState extends ConsumerState<HistoryView> {
 class HistoryBody extends ConsumerWidget {
   const HistoryBody({super.key});
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(historyProvider);
-    final notifier = ref.read(historyProvider.notifier);
+ @override
+Widget build(BuildContext context, WidgetRef ref) {
+  final state = ref.watch(historyProvider);
+  final notifier = ref.read(historyProvider.notifier);
 
+  print('');
+  print('============== VIEW DEBUG ==============');
+  print(
+    'selectedAccount: ${state.selectedAccount?.id}',
+  );
+  print(
+    'accounts: ${state.accounts.length}',
+  );
+  print(
+    'transactions: ${state.transactions.length}',
+  );
+  print(
+    'isLoading: ${state.isLoading}',
+  );
+  print(
+    'isLoadingTransactions: ${state.isLoadingTransactions}',
+  );
+  print(
+    'isLoadingMore: ${state.isLoadingMore}',
+  );
+  print(
+    'hasMore: ${state.hasMore}',
+  );
+  print(
+    'error: ${state.error}',
+  );
+
+  for (final tx in state.transactions) {
+    print(
+      'VIEW TX => ${tx.id} | ${tx.description} | ${tx.amount}',
+    );
+  }
+
+  print('========================================');
     return LayoutBuilder(
       builder: (context, constraints) {
         return Stack(
@@ -46,48 +84,90 @@ class HistoryBody extends ConsumerWidget {
               children: [
                 Container(
                   padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).padding.top + 20,
+                    top:
+                        MediaQuery.of(context)
+                                .padding
+                                .top +
+                            20,
                     bottom: 30,
-                    left: constraints.maxWidth > 600
-                        ? (constraints.maxWidth - 600) / 2
-                        : 24,
-                    right: constraints.maxWidth > 600
-                        ? (constraints.maxWidth - 600) / 2
-                        : 24,
+                    left:
+                        constraints.maxWidth >
+                                600
+                            ? (constraints
+                                        .maxWidth -
+                                    600) /
+                                2
+                            : 24,
+                    right:
+                        constraints.maxWidth >
+                                600
+                            ? (constraints
+                                        .maxWidth -
+                                    600) /
+                                2
+                            : 24,
                   ),
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
+                  decoration:
+                      const BoxDecoration(
+                    gradient:
+                        LinearGradient(
                       colors: [
                         Color(0xFF006FFD),
                         Color(0xFF0051D4),
                       ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+                      begin:
+                          Alignment.topLeft,
+                      end:
+                          Alignment
+                              .bottomRight,
                     ),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30),
+                    borderRadius:
+                        BorderRadius.only(
+                      bottomLeft:
+                          Radius.circular(
+                        30,
+                      ),
+                      bottomRight:
+                          Radius.circular(
+                        30,
+                      ),
                     ),
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment:
+                        CrossAxisAlignment
+                            .start,
                     children: [
                       Row(
                         children: [
                           IconButton(
-                            icon: const Icon(
-                              Icons.arrow_back,
-                              color: Colors.white,
+                            icon:
+                                const Icon(
+                              Icons
+                                  .arrow_back,
+                              color:
+                                  Colors
+                                      .white,
                             ),
-                            onPressed: () => Navigator.pop(context),
+                            onPressed:
+                                () =>
+                                    Navigator.pop(
+                                      context,
+                                    ),
                           ),
-                          const SizedBox(width: 8),
+                          const SizedBox(
+                              width: 8),
                           const Text(
                             'Historial de Movimientos',
-                            style: TextStyle(
+                            style:
+                                TextStyle(
                               fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              fontWeight:
+                                  FontWeight
+                                      .bold,
+                              color:
+                                  Colors
+                                      .white,
                             ),
                           ),
                         ],
@@ -95,22 +175,33 @@ class HistoryBody extends ConsumerWidget {
                     ],
                   ),
                 ),
-
                 Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: constraints.maxWidth > 600
-                        ? (constraints.maxWidth - 600) / 2
-                        : 24,
+                  padding:
+                      EdgeInsets.symmetric(
+                    horizontal:
+                        constraints.maxWidth >
+                                600
+                            ? (constraints
+                                        .maxWidth -
+                                    600) /
+                                2
+                            : 24,
                     vertical: 24,
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment:
+                        CrossAxisAlignment
+                            .start,
                     children: [
                       if (state.isLoading)
                         const Center(
                           child: Padding(
-                            padding: EdgeInsets.all(40),
-                            child: CircularProgressIndicator(),
+                            padding:
+                                EdgeInsets.all(
+                              40,
+                            ),
+                            child:
+                                CircularProgressIndicator(),
                           ),
                         )
                       else ...[
@@ -118,85 +209,137 @@ class HistoryBody extends ConsumerWidget {
                           'Seleccionar Cuenta',
                           style: TextStyle(
                             fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF1A1A1A),
+                            fontWeight:
+                                FontWeight
+                                    .w600,
+                            color: Color(
+                              0xFF1A1A1A,
+                            ),
                           ),
                         ),
 
-                        const SizedBox(height: 16),
+                        const SizedBox(
+                          height: 16,
+                        ),
 
                         AccountSelectorChip(
-                          accounts: state.accounts,
-                          selectedAccount: state.selectedAccount,
-                          onSelect: notifier.selectAccount,
+                          accounts:
+                              state.accounts,
+                          selectedAccount: state
+                              .selectedAccount,
+                          onSelect:
+                              notifier
+                                  .selectAccount,
                         ),
 
-                        const SizedBox(height: 24),
+                        const SizedBox(
+                          height: 24,
+                        ),
 
                         SummaryCard(
-                          income: notifier.totalIncome,
-                          expenses: notifier.totalExpenses,
-                          transfers: notifier.totalTransfers,
+                          income:
+                              notifier
+                                  .totalIncome,
+                          expenses:
+                              notifier
+                                  .totalExpenses,
+                          transfers:
+                              notifier
+                                  .totalTransfers,
                         ),
 
-                        const SizedBox(height: 24),
+                        const SizedBox(
+                          height: 24,
+                        ),
 
                         Row(
                           mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
+                              MainAxisAlignment
+                                  .spaceBetween,
                           children: [
                             const Text(
                               'Transacciones Recientes',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF1A1A1A),
+                              style:
+                                  TextStyle(
+                                fontSize:
+                                    18,
+                                fontWeight:
+                                    FontWeight
+                                        .bold,
+                                color:
+                                    Color(
+                                  0xFF1A1A1A,
+                                ),
                               ),
                             ),
-                            if (state.isLoadingTransactions)
+                            if (state
+                                .isLoadingTransactions)
                               const SizedBox(
                                 width: 20,
                                 height: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
+                                child:
+                                    CircularProgressIndicator(
+                                  strokeWidth:
+                                      2,
                                 ),
                               ),
                           ],
                         ),
 
-                        const SizedBox(height: 16),
+                        const SizedBox(
+                          height: 16,
+                        ),
 
-                        if (state.transactions.isEmpty)
+                        if (state
+                            .transactions
+                            .isEmpty)
                           Center(
                             child: Padding(
-                              padding: const EdgeInsets.all(40),
+                              padding:
+                                  const EdgeInsets.all(
+                                40,
+                              ),
                               child: Column(
                                 children: [
                                   Icon(
-                                    Icons.receipt_long_outlined,
+                                    Icons
+                                        .receipt_long_outlined,
                                     size: 64,
-                                    color: Colors.grey.shade400,
+                                    color: Colors
+                                        .grey
+                                        .shade400,
                                   ),
-                                  const SizedBox(height: 16),
+                                  const SizedBox(
+                                    height:
+                                        16,
+                                  ),
                                   Text(
                                     'No hay transacciones',
-                                    style: TextStyle(
-                                      color:
-                                          Colors.grey.shade600,
-                                      fontSize: 16,
+                                    style:
+                                        TextStyle(
+                                      color: Colors
+                                          .grey
+                                          .shade600,
+                                      fontSize:
+                                          16,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                           )
-                        else
-                          ...state.transactions.map(
-                            (transaction) {
+                        else ...[
+                          ...state.transactions
+                              .map(
+                            (
+                              transaction,
+                            ) {
                               return TransactionListItem(
-                                transaction: transaction,
+                                transaction:
+                                    transaction,
                                 onTap: () {
-                                  notifier.selectTransaction(
+                                  notifier
+                                      .selectTransaction(
                                     transaction,
                                   );
 
@@ -208,6 +351,78 @@ class HistoryBody extends ConsumerWidget {
                               );
                             },
                           ),
+
+                          const SizedBox(
+                            height: 24,
+                          ),
+
+                          if (state.hasMore)
+                            Center(
+                              child:
+                                  ElevatedButton(
+                                onPressed: state
+                                        .isLoadingMore
+                                    ? null
+                                    : () {
+                                        notifier
+                                            .loadMoreTransactions();
+                                      },
+                                style: ElevatedButton
+                                    .styleFrom(
+                                  backgroundColor:
+                                      const Color(
+                                    0xFF006FFD,
+                                  ),
+                                  foregroundColor:
+                                      Colors
+                                          .white,
+                                  padding:
+                                      const EdgeInsets.symmetric(
+                                    horizontal:
+                                        32,
+                                    vertical:
+                                        14,
+                                  ),
+                                  shape:
+                                      RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(
+                                      12,
+                                    ),
+                                  ),
+                                ),
+                                child: state
+                                        .isLoadingMore
+                                    ? const SizedBox(
+                                        width:
+                                            20,
+                                        height:
+                                            20,
+                                        child:
+                                            CircularProgressIndicator(
+                                          strokeWidth:
+                                              2,
+                                          color:
+                                              Colors.white,
+                                        ),
+                                      )
+                                    : const Text(
+                                        'Cargar más',
+                                        style:
+                                            TextStyle(
+                                          fontSize:
+                                              16,
+                                          fontWeight:
+                                              FontWeight.w600,
+                                        ),
+                                      ),
+                              ),
+                            ),
+
+                          const SizedBox(
+                            height: 20,
+                          ),
+                        ],
                       ],
                     ],
                   ),
@@ -224,26 +439,37 @@ class HistoryBody extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final state = ref.read(historyProvider);
+    final state =
+        ref.read(historyProvider);
 
-    if (state.selectedTransaction == null) {
+    if (state.selectedTransaction ==
+        null) {
       return;
     }
 
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => TransactionDetailModal(
-        transaction: state.selectedTransaction!,
-        onClose: () {
-          Navigator.pop(context);
+      backgroundColor:
+          Colors.transparent,
+      builder:
+          (context) =>
+              TransactionDetailModal(
+                transaction: state
+                    .selectedTransaction!,
+                onClose: () {
+                  Navigator.pop(
+                    context,
+                  );
 
-          ref
-              .read(historyProvider.notifier)
-              .clearSelectedTransaction();
-        },
-      ),
+                  ref
+                      .read(
+                        historyProvider
+                            .notifier,
+                      )
+                      .clearSelectedTransaction();
+                },
+              ),
     );
   }
 }
