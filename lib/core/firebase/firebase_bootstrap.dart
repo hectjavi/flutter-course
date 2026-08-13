@@ -16,9 +16,14 @@ class FirebaseBootstrap {
       return false;
     }
 
-    await Firebase.initializeApp(
-      options: FirebaseEnvironmentOptions.currentPlatform,
-    );
+    try {
+      await Firebase.initializeApp(
+        options: FirebaseEnvironmentOptions.currentPlatform,
+      );
+    } on FirebaseException catch (error) {
+      debugPrint('Firebase initialization skipped: ${error.message}');
+      return false;
+    }
 
     return true;
   }
@@ -31,7 +36,8 @@ class FirebaseBootstrap {
     try {
       await Firebase.initializeApp();
       return true;
-    } on FirebaseException {
+    } on FirebaseException catch (error) {
+      debugPrint('Firebase native initialization skipped: ${error.message}');
       return false;
     }
   }

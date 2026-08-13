@@ -1,12 +1,17 @@
 import 'package:flutter_application_1/features/auth/data/data_sources/auth_remote_data_source.dart';
+import 'package:flutter_application_1/features/auth/data/data_sources/notification_token_remote_data_source.dart';
 import 'package:flutter_application_1/features/auth/domain/entities/auth_user.dart';
 import 'package:flutter_application_1/features/auth/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  const AuthRepositoryImpl({required AuthRemoteDataSource remoteDataSource})
-    : _remoteDataSource = remoteDataSource;
+  const AuthRepositoryImpl({
+    required AuthRemoteDataSource remoteDataSource,
+    required NotificationTokenRemoteDataSource notificationTokenDataSource,
+  }) : _remoteDataSource = remoteDataSource,
+       _notificationTokenDataSource = notificationTokenDataSource;
 
   final AuthRemoteDataSource _remoteDataSource;
+  final NotificationTokenRemoteDataSource _notificationTokenDataSource;
 
   @override
   Stream<AuthUser?> watchAuthState() {
@@ -28,6 +33,7 @@ class AuthRepositoryImpl implements AuthRepository {
       email: email,
       password: password,
     );
+    await _notificationTokenDataSource.ensureTokenForEmail(user.email);
     return user.toEntity();
   }
 
@@ -40,6 +46,7 @@ class AuthRepositoryImpl implements AuthRepository {
       email: email,
       password: password,
     );
+    await _notificationTokenDataSource.ensureTokenForEmail(user.email);
     return user.toEntity();
   }
 

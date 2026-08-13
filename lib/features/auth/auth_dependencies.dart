@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_1/core/firebase/firebase_enabled_provider.dart';
+import 'package:flutter_application_1/core/notifications/notifications_service.dart';
 import 'package:flutter_application_1/features/auth/data/data_sources/auth_remote_data_source.dart';
+import 'package:flutter_application_1/features/auth/data/data_sources/notification_token_remote_data_source.dart';
 import 'package:flutter_application_1/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:flutter_application_1/features/auth/domain/repositories/auth_repository.dart';
 import 'package:flutter_application_1/features/auth/domain/use_cases/get_stored_session_use_case.dart';
@@ -18,6 +21,23 @@ final firebaseAuthProvider = Provider<FirebaseAuth?>((ref) {
   return FirebaseAuth.instance;
 });
 
+final firebaseFirestoreProvider = Provider<FirebaseFirestore?>((ref) {
+  if (!ref.watch(firebaseEnabledProvider)) {
+    return null;
+  }
+
+  return FirebaseFirestore.instance;
+});
+
+final notificationsServiceProvider = Provider<NotificationsService?>((ref) {
+  if (!ref.watch(firebaseEnabledProvider) ||
+      !NotificationsService.isSupportedPlatform) {
+    return null;
+  }
+
+  return NotificationsService();
+});
+
 final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>((ref) {
   return AuthRemoteDataSource(
     firebaseAuth: ref.watch(firebaseAuthProvider),
@@ -25,9 +45,21 @@ final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>((ref) {
   );
 });
 
+final notificationTokenRemoteDataSourceProvider =
+    Provider<NotificationTokenRemoteDataSource>((ref) {
+      return NotificationTokenRemoteDataSource(
+        firestore: ref.watch(firebaseFirestoreProvider),
+        notificationsService: ref.watch(notificationsServiceProvider),
+        firebaseEnabled: ref.watch(firebaseEnabledProvider),
+      );
+    });
+
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepositoryImpl(
     remoteDataSource: ref.watch(authRemoteDataSourceProvider),
+    notificationTokenDataSource: ref.watch(
+      notificationTokenRemoteDataSourceProvider,
+    ),
   );
 });
 

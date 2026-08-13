@@ -4,6 +4,15 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Flutter Pixel 9 (Dev)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_dev.dart",
+      "deviceId": "emulator-5554",
+      "flutterMode": "debug",
+      "preLaunchTask": "Start Pixel 9 emulator"
+    },
+    {
       "name": "Flutter Chrome (Dev)",
       "request": "launch",
       "type": "dart",
