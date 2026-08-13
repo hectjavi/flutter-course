@@ -36,15 +36,45 @@ class _HistoryViewState
 class HistoryBody extends ConsumerWidget {
   const HistoryBody({super.key});
 
-  @override
-  Widget build(
-    BuildContext context,
-    WidgetRef ref,
-  ) {
-    final state = ref.watch(historyProvider);
-    final notifier =
-        ref.read(historyProvider.notifier);
+ @override
+Widget build(BuildContext context, WidgetRef ref) {
+  final state = ref.watch(historyProvider);
+  final notifier = ref.read(historyProvider.notifier);
 
+  print('');
+  print('============== VIEW DEBUG ==============');
+  print(
+    'selectedAccount: ${state.selectedAccount?.id}',
+  );
+  print(
+    'accounts: ${state.accounts.length}',
+  );
+  print(
+    'transactions: ${state.transactions.length}',
+  );
+  print(
+    'isLoading: ${state.isLoading}',
+  );
+  print(
+    'isLoadingTransactions: ${state.isLoadingTransactions}',
+  );
+  print(
+    'isLoadingMore: ${state.isLoadingMore}',
+  );
+  print(
+    'hasMore: ${state.hasMore}',
+  );
+  print(
+    'error: ${state.error}',
+  );
+
+  for (final tx in state.transactions) {
+    print(
+      'VIEW TX => ${tx.id} | ${tx.description} | ${tx.amount}',
+    );
+  }
+
+  print('========================================');
     return LayoutBuilder(
       builder: (context, constraints) {
         return Stack(
