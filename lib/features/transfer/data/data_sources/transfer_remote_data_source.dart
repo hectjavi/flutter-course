@@ -1,23 +1,43 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application_1/features/transfer/data/models/account_destination_model.dart';
 import 'package:flutter_application_1/features/transfer/data/models/account_model.dart';
 import 'package:flutter_application_1/features/transfer/data/models/transfer_model.dart';
 
 class TransferRemoteDataSource {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   Future<List<AccountModel>> getSourceAccounts() async {
     try {
-      await Future.delayed(const Duration(milliseconds: 800));
-      return _sourceAccounts;
+      final snapshot =
+          await _firestore.collection('cuentas').get();
+
+      return snapshot.docs.map((doc) {
+        return AccountModel.fromJson({
+          ...doc.data(),
+          'id': doc.id,
+        });
+      }).toList();
     } catch (e) {
       throw Exception('Error al obtener cuentas: $e');
     }
   }
 
-  Future<List<AccountDestinationModel>> getDestinationAccounts() async {
+  Future<List<AccountDestinationModel>>
+      getDestinationAccounts() async {
     try {
-      await Future.delayed(const Duration(milliseconds: 600));
-      return _destinationAccounts;
+      final snapshot =
+          await _firestore.collection('cuentas_destino').get();
+
+      return snapshot.docs.map((doc) {
+        return AccountDestinationModel.fromJson({
+          ...doc.data(),
+          'id': doc.id,
+        });
+      }).toList();
     } catch (e) {
-      throw Exception('Error al obtener cuentas destino: $e');
+      throw Exception(
+        'Error al obtener cuentas destino: $e',
+      );
     }
   }
 
@@ -25,111 +45,119 @@ class TransferRemoteDataSource {
     String accountNumber,
   ) async {
     try {
-      await Future.delayed(const Duration(milliseconds: 500));
-      return _destinationAccounts.firstWhere(
-        (acc) => acc.accountNumber.replaceAll('*', '').contains(accountNumber),
-        orElse: () => throw Exception('Cuenta no encontrada'),
+      final snapshot =
+          await _firestore.collection('cuentas_destino').get();
+
+      final accounts = snapshot.docs.map((doc) {
+        return AccountDestinationModel.fromJson({
+          ...doc.data(),
+          'id': doc.id,
+        });
+      }).toList();
+
+      return accounts.firstWhere(
+        (acc) => acc.accountNumber
+            .replaceAll('*', '')
+            .replaceAll(' ', '')
+            .contains(accountNumber),
       );
     } catch (e) {
-      throw Exception('Error al buscar cuenta: $e');
+      throw Exception('Cuenta no encontrada');
     }
   }
 
-  Future<void> requestConfirmationToken(String sourceAccountId) async {
+  Future<void> requestConfirmationToken(
+    String sourceAccountId,
+  ) async {
     try {
-      await Future.delayed(const Duration(seconds: 1));
+      // Aquí posteriormente puedes llamar Cloud Functions
+      // o tu API para enviar SMS, correo o push.
+
+      await Future.delayed(
+        const Duration(seconds: 1),
+      );
     } catch (e) {
-      throw Exception('Error al solicitar token: $e');
+      throw Exception(
+        'Error al solicitar token: $e',
+      );
     }
   }
 
   Future<TransferModel> executeTransfer({
-    required String sourceAccountId,
-    required String destinationAccountId,
-    required double amount,
-    required String confirmationToken,
-    String? description,
-  }) async {
-    try {
-      await Future.delayed(const Duration(seconds: 2));
-      if (confirmationToken != '123456') {
-        throw Exception('Token de confirmación inválido');
-      }
-
-      return TransferModel(
-        id: 'TRX-${DateTime.now().millisecondsSinceEpoch}',
-        sourceAccountId: sourceAccountId,
-        destinationAccountId: destinationAccountId,
-        amount: amount,
-        currency: 'USD',
-        description: description,
-        confirmationToken: confirmationToken,
-        createdAt: DateTime.now(),
-        status: 'completed',
+  required String sourceAccountId,
+  required String destinationAccountId,
+  required double amount,
+  required String confirmationToken,
+  String? description,
+}) async {
+  try {
+    if (confirmationToken != '123456') {
+      throw Exception(
+        'Token de confirmación inválido',
       );
-    } catch (e) {
-      throw Exception('Error al realizar transferencia: $e');
     }
+
+    final sourceAccountDoc = await _firestore
+        .collection('cuentas')
+        .doc(sourceAccountId)
+        .get();
+
+    if (!sourceAccountDoc.exists) {
+      throw Exception(
+        'No se encontró la cuenta origen',
+      );
+    }
+
+    final sourceAccountData =
+        sourceAccountDoc.data()!;
+
+    final businessAccountId =
+        sourceAccountData['id'];
+
+    final transferId =
+        'TX-${DateTime.now().millisecondsSinceEpoch}';
+
+    final transferData = {
+      'id': transferId,
+      'accountId': businessAccountId,
+      'type': 'transfer',
+      'amount': amount,
+      'currency': 'USD',
+      'description': description ?? '',
+      'status': 'completed',
+      'date': Timestamp.now(),
+
+      'sourceAccountId': sourceAccountId,
+      'destinationAccountId': destinationAccountId,
+      'confirmationToken': confirmationToken,
+
+      'referenceNumber': transferId,
+      'category': 'transfer',
+      'counterpartyName': null,
+      'counterpartyAccount': null,
+    };
+
+    await _firestore
+        .collection('transferencias')
+        .add(transferData);
+
+    return TransferModel(
+      id: transferId,
+      sourceAccountId: sourceAccountId,
+      destinationAccountId:
+          destinationAccountId,
+      amount: amount,
+      currency: 'USD',
+      description: description,
+      confirmationToken:
+          confirmationToken,
+      createdAt: DateTime.now(),
+      status: 'completed',
+    );
+  } catch (e) {
+    throw Exception(
+      'Error al realizar transferencia: $e',
+    );
   }
-
-  List<AccountModel> get _sourceAccounts => [
-    AccountModel(
-      id: 'ACC-001',
-      accountNumber: '**** 4589',
-      accountType: 'Cuenta de Ahorros',
-      balance: 12500.50,
-      currency: 'USD',
-      bankName: 'Banco Internacional',
-      status: 'Activa',
-    ),
-    AccountModel(
-      id: 'ACC-002',
-      accountNumber: '**** 7892',
-      accountType: 'Cuenta Corriente',
-      balance: 8750.00,
-      currency: 'USD',
-      bankName: 'Banco Internacional',
-      status: 'Activa',
-    ),
-    AccountModel(
-      id: 'ACC-003',
-      accountNumber: '**** 1234',
-      accountType: 'Cuenta de Inversión',
-      balance: 50000.00,
-      currency: 'USD',
-      bankName: 'Banco Internacional',
-      status: 'Activa',
-    ),
-  ];
-
-  List<AccountDestinationModel> get _destinationAccounts => [
-    AccountDestinationModel(
-      id: 'DEST-001',
-      accountNumber: '**** 9999',
-      accountHolderName: 'María González',
-      bankName: 'Banco Nacional',
-      alias: 'Mamá',
-    ),
-    AccountDestinationModel(
-      id: 'DEST-002',
-      accountNumber: '**** 7777',
-      accountHolderName: 'Carlos Ruiz',
-      bankName: 'Banco Internacional',
-      alias: 'Carlos - Trabajo',
-    ),
-    AccountDestinationModel(
-      id: 'DEST-003',
-      accountNumber: '**** 5555',
-      accountHolderName: 'Inmobiliaria del Sur',
-      bankName: 'Banco Metropolitano',
-      alias: 'Pago Alquiler',
-    ),
-    AccountDestinationModel(
-      id: 'DEST-004',
-      accountNumber: '**** 3333',
-      accountHolderName: 'Ana Martínez',
-      bankName: 'Banco Internacional',
-      alias: 'Hermana',
-    ),
-  ];
+}
 }

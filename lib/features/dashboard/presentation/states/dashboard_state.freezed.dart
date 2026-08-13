@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$DashboardState {
-  AccountModel? get account => throw _privateConstructorUsedError;
+  List<AccountModel> get accounts => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
   String get welcomeMessage => throw _privateConstructorUsedError;
@@ -37,13 +37,11 @@ abstract class $DashboardStateCopyWith<$Res> {
   ) = _$DashboardStateCopyWithImpl<$Res, DashboardState>;
   @useResult
   $Res call({
-    AccountModel? account,
+    List<AccountModel> accounts,
     bool isLoading,
     String? error,
     String welcomeMessage,
   });
-
-  $AccountModelCopyWith<$Res>? get account;
 }
 
 /// @nodoc
@@ -61,17 +59,17 @@ class _$DashboardStateCopyWithImpl<$Res, $Val extends DashboardState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? account = freezed,
+    Object? accounts = null,
     Object? isLoading = null,
     Object? error = freezed,
     Object? welcomeMessage = null,
   }) {
     return _then(
       _value.copyWith(
-            account: freezed == account
-                ? _value.account
-                : account // ignore: cast_nullable_to_non_nullable
-                      as AccountModel?,
+            accounts: null == accounts
+                ? _value.accounts
+                : accounts // ignore: cast_nullable_to_non_nullable
+                      as List<AccountModel>,
             isLoading: null == isLoading
                 ? _value.isLoading
                 : isLoading // ignore: cast_nullable_to_non_nullable
@@ -88,20 +86,6 @@ class _$DashboardStateCopyWithImpl<$Res, $Val extends DashboardState>
           as $Val,
     );
   }
-
-  /// Create a copy of DashboardState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AccountModelCopyWith<$Res>? get account {
-    if (_value.account == null) {
-      return null;
-    }
-
-    return $AccountModelCopyWith<$Res>(_value.account!, (value) {
-      return _then(_value.copyWith(account: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
@@ -114,14 +98,11 @@ abstract class _$$DashboardStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    AccountModel? account,
+    List<AccountModel> accounts,
     bool isLoading,
     String? error,
     String welcomeMessage,
   });
-
-  @override
-  $AccountModelCopyWith<$Res>? get account;
 }
 
 /// @nodoc
@@ -138,17 +119,17 @@ class __$$DashboardStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? account = freezed,
+    Object? accounts = null,
     Object? isLoading = null,
     Object? error = freezed,
     Object? welcomeMessage = null,
   }) {
     return _then(
       _$DashboardStateImpl(
-        account: freezed == account
-            ? _value.account
-            : account // ignore: cast_nullable_to_non_nullable
-                  as AccountModel?,
+        accounts: null == accounts
+            ? _value._accounts
+            : accounts // ignore: cast_nullable_to_non_nullable
+                  as List<AccountModel>,
         isLoading: null == isLoading
             ? _value.isLoading
             : isLoading // ignore: cast_nullable_to_non_nullable
@@ -170,14 +151,21 @@ class __$$DashboardStateImplCopyWithImpl<$Res>
 
 class _$DashboardStateImpl implements _DashboardState {
   const _$DashboardStateImpl({
-    this.account,
+    final List<AccountModel> accounts = const [],
     this.isLoading = false,
     this.error,
     this.welcomeMessage = '¡Bienvenido de nuevo!',
-  });
+  }) : _accounts = accounts;
 
+  final List<AccountModel> _accounts;
   @override
-  final AccountModel? account;
+  @JsonKey()
+  List<AccountModel> get accounts {
+    if (_accounts is EqualUnmodifiableListView) return _accounts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_accounts);
+  }
+
   @override
   @JsonKey()
   final bool isLoading;
@@ -189,7 +177,7 @@ class _$DashboardStateImpl implements _DashboardState {
 
   @override
   String toString() {
-    return 'DashboardState(account: $account, isLoading: $isLoading, error: $error, welcomeMessage: $welcomeMessage)';
+    return 'DashboardState(accounts: $accounts, isLoading: $isLoading, error: $error, welcomeMessage: $welcomeMessage)';
   }
 
   @override
@@ -197,7 +185,7 @@ class _$DashboardStateImpl implements _DashboardState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DashboardStateImpl &&
-            (identical(other.account, account) || other.account == account) &&
+            const DeepCollectionEquality().equals(other._accounts, _accounts) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             (identical(other.error, error) || other.error == error) &&
@@ -206,8 +194,13 @@ class _$DashboardStateImpl implements _DashboardState {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, account, isLoading, error, welcomeMessage);
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(_accounts),
+    isLoading,
+    error,
+    welcomeMessage,
+  );
 
   /// Create a copy of DashboardState
   /// with the given fields replaced by the non-null parameter values.
@@ -223,14 +216,14 @@ class _$DashboardStateImpl implements _DashboardState {
 
 abstract class _DashboardState implements DashboardState {
   const factory _DashboardState({
-    final AccountModel? account,
+    final List<AccountModel> accounts,
     final bool isLoading,
     final String? error,
     final String welcomeMessage,
   }) = _$DashboardStateImpl;
 
   @override
-  AccountModel? get account;
+  List<AccountModel> get accounts;
   @override
   bool get isLoading;
   @override

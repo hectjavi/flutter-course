@@ -4,16 +4,19 @@ import 'package:flutter_application_1/features/history/data/models/transaction_m
 class GetTransactionsUseCase {
   final HistoryRepositoryImpl _repository;
 
-  GetTransactionsUseCase({HistoryRepositoryImpl? repository})
-    : _repository = repository ?? HistoryRepositoryImpl();
+  GetTransactionsUseCase({
+    HistoryRepositoryImpl? repository,
+  }) : _repository =
+            repository ??
+            HistoryRepositoryImpl();
 
-  Future<List<TransactionModel>> call(
+  Stream<List<TransactionModel>> call(
     String accountId, {
     DateTime? startDate,
     DateTime? endDate,
     String? type,
-  }) async {
-    return await _repository.getTransactionsByAccount(
+  }) {
+    return _repository.getTransactionsByAccount(
       accountId,
       startDate: startDate,
       endDate: endDate,

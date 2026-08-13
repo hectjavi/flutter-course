@@ -1,24 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application_1/features/dashboard/data/models/account_model.dart';
 
 class DashboardRemoteDataSource {
-  Future<AccountModel> getAccountSummary() async {
-    try {
-      await Future.delayed(const Duration(seconds: 1));
-      return _account;
-    } catch (e) {
-      throw Exception('Error al obtener resumen de cuenta: $e');
-    }
-  }
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  AccountModel get _account {
-    return AccountModel(
-      id: 'ACC-001',
-      accountNumber: '**** 4589',
-      accountType: 'Cuenta de Ahorros',
-      balance: 12500.50,
-      currency: 'USD',
-      bankName: 'BAM',
-      status: 'Activa',
-    );
+ Future<List<AccountModel>> getAccountSummary() async {
+  try {
+    final snapshot = await _firestore.collection('cuentas').get();
+
+    return snapshot.docs.map((doc) {
+      return AccountModel.fromJson({
+        ...doc.data(),
+        'id': doc.id,
+      });
+    }).toList();
+  } catch (e) {
+    throw Exception('Error al obtener cuentas: $e');
   }
+}
 }

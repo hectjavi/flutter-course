@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_application_1/features/history/data/models/account_model.dart';
 import 'package:flutter_application_1/features/history/data/models/transaction_model.dart';
@@ -15,13 +17,18 @@ class HistoryNotifier extends StateNotifier<HistoryState> {
   final GetUserAccountsUseCase _getUserAccountsUseCase;
   final GetTransactionsUseCase _getTransactionsUseCase;
 
+  StreamSubscription<List<TransactionModel>>?
+      _transactionsSubscription;
+
   HistoryNotifier({
     GetUserAccountsUseCase? getUserAccountsUseCase,
     GetTransactionsUseCase? getTransactionsUseCase,
   }) : _getUserAccountsUseCase =
-            getUserAccountsUseCase ?? GetUserAccountsUseCase(),
+            getUserAccountsUseCase ??
+            GetUserAccountsUseCase(),
        _getTransactionsUseCase =
-            getTransactionsUseCase ?? GetTransactionsUseCase(),
+            getTransactionsUseCase ??
+            GetTransactionsUseCase(),
        super(const HistoryState());
 
   double get totalIncome => state.transactions
@@ -43,7 +50,8 @@ class HistoryNotifier extends StateNotifier<HistoryState> {
     );
 
     try {
-      final accounts = await _getUserAccountsUseCase();
+      final accounts =
+          await _getUserAccountsUseCase();
 
       state = state.copyWith(
         accounts: accounts,
@@ -54,7 +62,7 @@ class HistoryNotifier extends StateNotifier<HistoryState> {
           selectedAccount: accounts.first,
         );
 
-        await _loadTransactions();
+        _listenTransactions();
       }
 
       state = state.copyWith(
@@ -76,35 +84,42 @@ class HistoryNotifier extends StateNotifier<HistoryState> {
       transactions: [],
     );
 
-    await _loadTransactions();
+    _listenTransactions();
   }
 
-  Future<void> _loadTransactions() async {
-    if (state.selectedAccount == null) return;
+  void _listenTransactions() {
+    if (state.selectedAccount == null) {
+      return;
+    }
+
+    _transactionsSubscription?.cancel();
 
     state = state.copyWith(
       isLoadingTransactions: true,
       error: null,
     );
 
-    try {
-      final transactions = await _getTransactionsUseCase(
-        state.selectedAccount!.id,
-        startDate: state.filterStartDate,
-        endDate: state.filterEndDate,
-        type: state.filterType,
-      );
-
-      state = state.copyWith(
-        transactions: transactions,
-        isLoadingTransactions: false,
-      );
-    } catch (e) {
-      state = state.copyWith(
-        isLoadingTransactions: false,
-        error: 'Error al cargar transacciones: $e',
-      );
-    }
+    _transactionsSubscription =
+        _getTransactionsUseCase(
+      state.selectedAccount!.id,
+      startDate: state.filterStartDate,
+      endDate: state.filterEndDate,
+      type: state.filterType,
+    ).listen(
+      (transactions) {
+        state = state.copyWith(
+          transactions: transactions,
+          isLoadingTransactions: false,
+        );
+      },
+      onError: (error) {
+        state = state.copyWith(
+          isLoadingTransactions: false,
+          error:
+              'Error al cargar transacciones: $error',
+        );
+      },
+    );
   }
 
   void selectTransaction(
@@ -130,7 +145,7 @@ class HistoryNotifier extends StateNotifier<HistoryState> {
       filterEndDate: end,
     );
 
-    await _loadTransactions();
+    _listenTransactions();
   }
 
   Future<void> setTypeFilter(
@@ -140,7 +155,7 @@ class HistoryNotifier extends StateNotifier<HistoryState> {
       filterType: type,
     );
 
-    await _loadTransactions();
+    _listenTransactions();
   }
 
   Future<void> clearFilters() async {
@@ -150,6 +165,12 @@ class HistoryNotifier extends StateNotifier<HistoryState> {
       filterType: null,
     );
 
-    await _loadTransactions();
+    _listenTransactions();
+  }
+
+  @override
+  void dispose() {
+    _transactionsSubscription?.cancel();
+    super.dispose();
   }
 }
