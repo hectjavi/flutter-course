@@ -15,20 +15,27 @@ class HistoryRepositoryImpl {
     return await _remoteDataSource.getUserAccounts();
   }
 
-  Stream<List<TransactionModel>>
+  Future<List<TransactionModel>>
       getTransactionsByAccount(
     String accountId, {
     DateTime? startDate,
     DateTime? endDate,
     String? type,
-  }) {
-    return _remoteDataSource
+  }) async {
+    return await _remoteDataSource
         .getTransactionsByAccount(
       accountId,
       startDate: startDate,
       endDate: endDate,
       type: type,
     );
+  }
+
+  bool get hasMore =>
+      _remoteDataSource.hasMore;
+
+  void resetPagination() {
+    _remoteDataSource.resetPagination();
   }
 
   Future<TransactionModel?>

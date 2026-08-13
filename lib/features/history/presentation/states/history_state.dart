@@ -16,6 +16,9 @@ class HistoryState with _$HistoryState {
     @Default(false) bool isLoading,
     @Default(false) bool isLoadingTransactions,
 
+    @Default(false) bool isLoadingMore,
+    @Default(true) bool hasMore,
+
     String? error,
 
     DateTime? filterStartDate,

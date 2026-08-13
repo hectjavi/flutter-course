@@ -24,6 +24,8 @@ mixin _$HistoryState {
       throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isLoadingTransactions => throw _privateConstructorUsedError;
+  bool get isLoadingMore => throw _privateConstructorUsedError;
+  bool get hasMore => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
   DateTime? get filterStartDate => throw _privateConstructorUsedError;
   DateTime? get filterEndDate => throw _privateConstructorUsedError;
@@ -50,6 +52,8 @@ abstract class $HistoryStateCopyWith<$Res> {
     TransactionModel? selectedTransaction,
     bool isLoading,
     bool isLoadingTransactions,
+    bool isLoadingMore,
+    bool hasMore,
     String? error,
     DateTime? filterStartDate,
     DateTime? filterEndDate,
@@ -81,6 +85,8 @@ class _$HistoryStateCopyWithImpl<$Res, $Val extends HistoryState>
     Object? selectedTransaction = freezed,
     Object? isLoading = null,
     Object? isLoadingTransactions = null,
+    Object? isLoadingMore = null,
+    Object? hasMore = null,
     Object? error = freezed,
     Object? filterStartDate = freezed,
     Object? filterEndDate = freezed,
@@ -111,6 +117,14 @@ class _$HistoryStateCopyWithImpl<$Res, $Val extends HistoryState>
             isLoadingTransactions: null == isLoadingTransactions
                 ? _value.isLoadingTransactions
                 : isLoadingTransactions // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            isLoadingMore: null == isLoadingMore
+                ? _value.isLoadingMore
+                : isLoadingMore // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            hasMore: null == hasMore
+                ? _value.hasMore
+                : hasMore // ignore: cast_nullable_to_non_nullable
                       as bool,
             error: freezed == error
                 ? _value.error
@@ -180,6 +194,8 @@ abstract class _$$HistoryStateImplCopyWith<$Res>
     TransactionModel? selectedTransaction,
     bool isLoading,
     bool isLoadingTransactions,
+    bool isLoadingMore,
+    bool hasMore,
     String? error,
     DateTime? filterStartDate,
     DateTime? filterEndDate,
@@ -212,6 +228,8 @@ class __$$HistoryStateImplCopyWithImpl<$Res>
     Object? selectedTransaction = freezed,
     Object? isLoading = null,
     Object? isLoadingTransactions = null,
+    Object? isLoadingMore = null,
+    Object? hasMore = null,
     Object? error = freezed,
     Object? filterStartDate = freezed,
     Object? filterEndDate = freezed,
@@ -242,6 +260,14 @@ class __$$HistoryStateImplCopyWithImpl<$Res>
         isLoadingTransactions: null == isLoadingTransactions
             ? _value.isLoadingTransactions
             : isLoadingTransactions // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isLoadingMore: null == isLoadingMore
+            ? _value.isLoadingMore
+            : isLoadingMore // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        hasMore: null == hasMore
+            ? _value.hasMore
+            : hasMore // ignore: cast_nullable_to_non_nullable
                   as bool,
         error: freezed == error
             ? _value.error
@@ -274,6 +300,8 @@ class _$HistoryStateImpl implements _HistoryState {
     this.selectedTransaction,
     this.isLoading = false,
     this.isLoadingTransactions = false,
+    this.isLoadingMore = false,
+    this.hasMore = true,
     this.error,
     this.filterStartDate,
     this.filterEndDate,
@@ -310,6 +338,12 @@ class _$HistoryStateImpl implements _HistoryState {
   @JsonKey()
   final bool isLoadingTransactions;
   @override
+  @JsonKey()
+  final bool isLoadingMore;
+  @override
+  @JsonKey()
+  final bool hasMore;
+  @override
   final String? error;
   @override
   final DateTime? filterStartDate;
@@ -320,7 +354,7 @@ class _$HistoryStateImpl implements _HistoryState {
 
   @override
   String toString() {
-    return 'HistoryState(accounts: $accounts, transactions: $transactions, selectedAccount: $selectedAccount, selectedTransaction: $selectedTransaction, isLoading: $isLoading, isLoadingTransactions: $isLoadingTransactions, error: $error, filterStartDate: $filterStartDate, filterEndDate: $filterEndDate, filterType: $filterType)';
+    return 'HistoryState(accounts: $accounts, transactions: $transactions, selectedAccount: $selectedAccount, selectedTransaction: $selectedTransaction, isLoading: $isLoading, isLoadingTransactions: $isLoadingTransactions, isLoadingMore: $isLoadingMore, hasMore: $hasMore, error: $error, filterStartDate: $filterStartDate, filterEndDate: $filterEndDate, filterType: $filterType)';
   }
 
   @override
@@ -341,6 +375,9 @@ class _$HistoryStateImpl implements _HistoryState {
                 other.isLoading == isLoading) &&
             (identical(other.isLoadingTransactions, isLoadingTransactions) ||
                 other.isLoadingTransactions == isLoadingTransactions) &&
+            (identical(other.isLoadingMore, isLoadingMore) ||
+                other.isLoadingMore == isLoadingMore) &&
+            (identical(other.hasMore, hasMore) || other.hasMore == hasMore) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.filterStartDate, filterStartDate) ||
                 other.filterStartDate == filterStartDate) &&
@@ -359,6 +396,8 @@ class _$HistoryStateImpl implements _HistoryState {
     selectedTransaction,
     isLoading,
     isLoadingTransactions,
+    isLoadingMore,
+    hasMore,
     error,
     filterStartDate,
     filterEndDate,
@@ -382,6 +421,8 @@ abstract class _HistoryState implements HistoryState {
     final TransactionModel? selectedTransaction,
     final bool isLoading,
     final bool isLoadingTransactions,
+    final bool isLoadingMore,
+    final bool hasMore,
     final String? error,
     final DateTime? filterStartDate,
     final DateTime? filterEndDate,
@@ -400,6 +441,10 @@ abstract class _HistoryState implements HistoryState {
   bool get isLoading;
   @override
   bool get isLoadingTransactions;
+  @override
+  bool get isLoadingMore;
+  @override
+  bool get hasMore;
   @override
   String? get error;
   @override

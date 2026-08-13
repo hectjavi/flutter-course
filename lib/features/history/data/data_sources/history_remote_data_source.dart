@@ -6,61 +6,70 @@ class HistoryRemoteDataSource {
   final FirebaseFirestore _firestore =
       FirebaseFirestore.instance;
 
+  DocumentSnapshot? _lastDocument;
+  bool _hasMore = true;
+
+  bool get hasMore => _hasMore;
+
+  void resetPagination() {
+    _lastDocument = null;
+    _hasMore = true;
+  }
+
   Future<List<AccountModel>> getUserAccounts() async {
     try {
       final snapshot =
           await _firestore.collection('cuentas').get();
 
-      print(
-        'HISTORY - CUENTAS ENCONTRADAS: ${snapshot.docs.length}',
-      );
-
       return snapshot.docs.map((doc) {
-        print(
-          'HISTORY - CUENTA ${doc.id}: ${doc.data()}',
-        );
-
         return AccountModel.fromJson({
           ...doc.data(),
           'id': doc.id,
         });
       }).toList();
-    } catch (e, stackTrace) {
-      print(
-        'HISTORY ERROR getUserAccounts: $e',
-      );
-      print(stackTrace);
-
+    } catch (e) {
       throw Exception(
         'Error al obtener cuentas: $e',
       );
     }
   }
 
-  Stream<List<TransactionModel>>
+  Future<List<TransactionModel>>
       getTransactionsByAccount(
     String accountId, {
     DateTime? startDate,
     DateTime? endDate,
     String? type,
-  }) {
-    print('');
-    print(
-        '========== HISTORY STREAM ==========');
-    print(
-        'ACCOUNT ID RECIBIDO: $accountId');
+  }) async {
+    try {
+      Query<Map<String, dynamic>> query =
+          _firestore
+              .collection('transferencias')
+              .where(
+                'sourceAccountId',
+                isEqualTo: accountId,
+              )
+              .orderBy(
+                'createdAt',
+                descending: true,
+              )
+              .limit(5);
 
-    return _firestore
-        .collection('transferencias')
-        .where(
-          'sourceAccountId',
-          isEqualTo: accountId,
-        )
-        .snapshots()
-        .map((snapshot) {
-      print(
-        'CAMBIO DETECTADO EN FIRESTORE: ${snapshot.docs.length} documentos',
-      );
+      if (_lastDocument != null) {
+        query = query.startAfterDocument(
+          _lastDocument!,
+        );
+      }
+
+      final snapshot = await query.get();
+
+      if (snapshot.docs.isNotEmpty) {
+        _lastDocument =
+            snapshot.docs.last;
+      }
+
+      _hasMore =
+          snapshot.docs.length == 5;
 
       List<TransactionModel> transactions =
           [];
@@ -95,8 +104,9 @@ class HistoryRemoteDataSource {
                 : (data['createdAt']
                         as Timestamp)
                     .toDate(),
-            status: data['status'] ??
-                'completed',
+            status:
+                data['status'] ??
+                    'completed',
             referenceNumber:
                 data['referenceNumber'],
             category:
@@ -110,7 +120,6 @@ class HistoryRemoteDataSource {
             'ERROR MAPEANDO DOCUMENTO ${doc.id}',
           );
           print(e);
-          print(doc.data());
         }
       }
 
@@ -153,12 +162,12 @@ class HistoryRemoteDataSource {
             .toList();
       }
 
-      print(
-        'TRANSACCIONES ACTUALIZADAS: ${transactions.length}',
-      );
-
       return transactions;
-    });
+    } catch (e) {
+      throw Exception(
+        'Error al obtener transacciones: $e',
+      );
+    }
   }
 
   Future<TransactionModel?>
@@ -166,39 +175,25 @@ class HistoryRemoteDataSource {
     String transactionId,
   ) async {
     try {
-      print(
-        'BUSCANDO DETALLE PARA ID: $transactionId',
-      );
-
-      final snapshot =
-          await _firestore
-              .collection(
-                  'transferencias')
-              .where(
-                'id',
-                isEqualTo:
-                    transactionId,
-              )
-              .limit(1)
-              .get();
-
-      print(
-        'RESULTADOS DETALLE: ${snapshot.docs.length}',
-      );
+      final snapshot = await _firestore
+          .collection('transferencias')
+          .where(
+            'id',
+            isEqualTo: transactionId,
+          )
+          .limit(1)
+          .get();
 
       if (snapshot.docs.isEmpty) {
-        print(
-          'NO SE ENCONTRO TRANSACCION',
-        );
         return null;
       }
 
-      final data =
-          snapshot.docs.first.data();
+      final doc =
+          snapshot.docs.first;
+      final data = doc.data();
 
       return TransactionModel(
-        id: data['id'] ??
-            snapshot.docs.first.id,
+        id: data['id'] ?? doc.id,
         accountId:
             data['accountId'] ?? '',
         type:
@@ -229,12 +224,7 @@ class HistoryRemoteDataSource {
         category:
             data['category'],
       );
-    } catch (e, stackTrace) {
-      print(
-        'HISTORY ERROR getTransactionDetail: $e',
-      );
-      print(stackTrace);
-
+    } catch (e) {
       throw Exception(
         'Error al obtener detalle: $e',
       );

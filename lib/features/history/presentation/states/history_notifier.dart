@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_application_1/features/history/data/models/account_model.dart';
 import 'package:flutter_application_1/features/history/data/models/transaction_model.dart';
@@ -16,9 +14,6 @@ final historyProvider =
 class HistoryNotifier extends StateNotifier<HistoryState> {
   final GetUserAccountsUseCase _getUserAccountsUseCase;
   final GetTransactionsUseCase _getTransactionsUseCase;
-
-  StreamSubscription<List<TransactionModel>>?
-      _transactionsSubscription;
 
   HistoryNotifier({
     GetUserAccountsUseCase? getUserAccountsUseCase,
@@ -62,7 +57,7 @@ class HistoryNotifier extends StateNotifier<HistoryState> {
           selectedAccount: accounts.first,
         );
 
-        _listenTransactions();
+        await _loadTransactions();
       }
 
       state = state.copyWith(
@@ -79,47 +74,86 @@ class HistoryNotifier extends StateNotifier<HistoryState> {
   Future<void> selectAccount(
     AccountModel account,
   ) async {
+    _getTransactionsUseCase.resetPagination();
+
     state = state.copyWith(
       selectedAccount: account,
       transactions: [],
+      hasMore: true,
     );
 
-    _listenTransactions();
+    await _loadTransactions();
   }
 
-  void _listenTransactions() {
+  Future<void> _loadTransactions() async {
     if (state.selectedAccount == null) {
       return;
     }
-
-    _transactionsSubscription?.cancel();
 
     state = state.copyWith(
       isLoadingTransactions: true,
       error: null,
     );
 
-    _transactionsSubscription =
-        _getTransactionsUseCase(
-      state.selectedAccount!.id,
-      startDate: state.filterStartDate,
-      endDate: state.filterEndDate,
-      type: state.filterType,
-    ).listen(
-      (transactions) {
-        state = state.copyWith(
-          transactions: transactions,
-          isLoadingTransactions: false,
-        );
-      },
-      onError: (error) {
-        state = state.copyWith(
-          isLoadingTransactions: false,
-          error:
-              'Error al cargar transacciones: $error',
-        );
-      },
+    try {
+      final transactions =
+          await _getTransactionsUseCase(
+        state.selectedAccount!.id,
+        startDate: state.filterStartDate,
+        endDate: state.filterEndDate,
+        type: state.filterType,
+      );
+
+      state = state.copyWith(
+        transactions: transactions,
+        hasMore:
+            _getTransactionsUseCase.hasMore,
+        isLoadingTransactions: false,
+      );
+    } catch (e) {
+      state = state.copyWith(
+        isLoadingTransactions: false,
+        error:
+            'Error al cargar transacciones: $e',
+      );
+    }
+  }
+
+  Future<void> loadMoreTransactions() async {
+    if (state.selectedAccount == null ||
+        !state.hasMore ||
+        state.isLoadingMore) {
+      return;
+    }
+
+    state = state.copyWith(
+      isLoadingMore: true,
     );
+
+    try {
+      final transactions =
+          await _getTransactionsUseCase(
+        state.selectedAccount!.id,
+        startDate: state.filterStartDate,
+        endDate: state.filterEndDate,
+        type: state.filterType,
+      );
+
+      state = state.copyWith(
+        transactions: [
+          ...state.transactions,
+          ...transactions,
+        ],
+        hasMore:
+            _getTransactionsUseCase.hasMore,
+        isLoadingMore: false,
+      );
+    } catch (e) {
+      state = state.copyWith(
+        isLoadingMore: false,
+        error: e.toString(),
+      );
+    }
   }
 
   void selectTransaction(
@@ -140,37 +174,43 @@ class HistoryNotifier extends StateNotifier<HistoryState> {
     DateTime? start,
     DateTime? end,
   ) async {
+    _getTransactionsUseCase.resetPagination();
+
     state = state.copyWith(
       filterStartDate: start,
       filterEndDate: end,
+      transactions: [],
+      hasMore: true,
     );
 
-    _listenTransactions();
+    await _loadTransactions();
   }
 
   Future<void> setTypeFilter(
     String? type,
   ) async {
+    _getTransactionsUseCase.resetPagination();
+
     state = state.copyWith(
       filterType: type,
+      transactions: [],
+      hasMore: true,
     );
 
-    _listenTransactions();
+    await _loadTransactions();
   }
 
   Future<void> clearFilters() async {
+    _getTransactionsUseCase.resetPagination();
+
     state = state.copyWith(
       filterStartDate: null,
       filterEndDate: null,
       filterType: null,
+      transactions: [],
+      hasMore: true,
     );
 
-    _listenTransactions();
-  }
-
-  @override
-  void dispose() {
-    _transactionsSubscription?.cancel();
-    super.dispose();
+    await _loadTransactions();
   }
 }
