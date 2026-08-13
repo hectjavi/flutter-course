@@ -4,9 +4,11 @@ import 'package:flutter_application_1/features/dashboard/data/models/account_mod
 class DashboardRepositoryImpl {
   final DashboardRemoteDataSource remoteDataSource;
 
-  DashboardRepositoryImpl({required this.remoteDataSource});
+  DashboardRepositoryImpl({
+    required this.remoteDataSource,
+  });
 
-  Future<AccountModel> getAccountSummary() async {
+  Future<List<AccountModel>> getAccountSummary() async {
     return await remoteDataSource.getAccountSummary();
   }
 }

@@ -6,7 +6,7 @@ part 'dashboard_state.freezed.dart';
 @freezed
 class DashboardState with _$DashboardState {
   const factory DashboardState({
-    AccountModel? account,
+    @Default([]) List<AccountModel> accounts,
     @Default(false) bool isLoading,
     String? error,
     @Default('¡Bienvenido de nuevo!')

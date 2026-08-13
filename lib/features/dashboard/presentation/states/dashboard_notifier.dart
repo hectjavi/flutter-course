@@ -28,10 +28,10 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
     );
 
     try {
-      final account = await _getAccountSummaryUseCase();
+      final accounts = await _getAccountSummaryUseCase();
 
       state = state.copyWith(
-        account: account,
+        accounts: accounts,
         isLoading: false,
       );
     } catch (e) {

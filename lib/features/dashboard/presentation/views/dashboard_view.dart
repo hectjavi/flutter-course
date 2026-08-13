@@ -151,9 +151,16 @@ class DashboardBody extends riverpod.ConsumerWidget {
                           ],
                         ),
                       )
-                    else if (state.account != null)
-                      AccountCardWidget(
-                        account: state.account!,
+                    else if (state.accounts.isNotEmpty)
+                      Column(
+                        children: state.accounts.map((account) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: AccountCardWidget(
+                              account: account,
+                            ),
+                          );
+                        }).toList(),
                       ),
 
                     const SizedBox(height: 32),

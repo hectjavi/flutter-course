@@ -5,20 +5,25 @@ import 'package:flutter_application_1/features/history/data/models/transaction_m
 class HistoryRepositoryImpl {
   final HistoryRemoteDataSource _remoteDataSource;
 
-  HistoryRepositoryImpl({HistoryRemoteDataSource? remoteDataSource})
-    : _remoteDataSource = remoteDataSource ?? HistoryRemoteDataSource();
+  HistoryRepositoryImpl({
+    HistoryRemoteDataSource? remoteDataSource,
+  }) : _remoteDataSource =
+            remoteDataSource ??
+            HistoryRemoteDataSource();
 
   Future<List<AccountModel>> getUserAccounts() async {
     return await _remoteDataSource.getUserAccounts();
   }
 
-  Future<List<TransactionModel>> getTransactionsByAccount(
+  Stream<List<TransactionModel>>
+      getTransactionsByAccount(
     String accountId, {
     DateTime? startDate,
     DateTime? endDate,
     String? type,
-  }) async {
-    return await _remoteDataSource.getTransactionsByAccount(
+  }) {
+    return _remoteDataSource
+        .getTransactionsByAccount(
       accountId,
       startDate: startDate,
       endDate: endDate,
@@ -26,7 +31,13 @@ class HistoryRepositoryImpl {
     );
   }
 
-  Future<TransactionModel?> getTransactionDetail(String transactionId) async {
-    return await _remoteDataSource.getTransactionDetail(transactionId);
+  Future<TransactionModel?>
+      getTransactionDetail(
+    String transactionId,
+  ) async {
+    return await _remoteDataSource
+        .getTransactionDetail(
+      transactionId,
+    );
   }
 }
