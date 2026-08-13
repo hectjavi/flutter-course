@@ -8,6 +8,8 @@ import 'package:flutter_application_1/features/transfer/domain/use_cases/get_sou
 import 'package:flutter_application_1/features/transfer/domain/use_cases/request_token_usecase.dart';
 
 import 'transfer_state.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_application_1/core/notifications/notifications_service.dart';
 
 final transferProvider =
     StateNotifierProvider<TransferNotifier, TransferState>(
@@ -117,6 +119,19 @@ class TransferNotifier extends StateNotifier<TransferState> {
         tokenSent: true,
         isLoadingToken: false,
       );
+
+      // Enviar una notificación local de prueba con token falso 123456
+      try {
+        final notifications = NotificationsService();
+        await notifications.init();
+        await notifications.showLocalNotification(
+          title: 'Código de confirmación',
+          body: 'Tu código es 123456',
+          data: {'token': '123456'},
+        );
+      } catch (e) {
+        debugPrint('Error mostrando notificación local: $e');
+      }
     } catch (e) {
       state = state.copyWith(
         tokenError: 'Error al enviar token: $e',
